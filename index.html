@@ -30,6 +30,7 @@
             
             --border-light: rgba(226, 232, 240, 0.8);
             --danger: #DC2626;
+            --success: #16A34A;
             
             --radius-md: 12px;
             --radius-lg: 20px;
@@ -77,7 +78,7 @@
         header {
             position: sticky;
             top: 0;
-            background: rgba(11, 19, 43, 0.8);
+            background: rgba(11, 19, 43, 0.85);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border-bottom: 1px solid var(--border-gold);
@@ -102,13 +103,13 @@
 
         .nav-links {
             display: flex;
-            gap: 24px;
+            gap: 20px;
             align-items: center;
             list-style: none;
         }
 
         .nav-links a {
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             font-weight: 600;
             color: rgba(255, 255, 255, 0.85);
             transition: color 0.2s ease;
@@ -128,10 +129,16 @@
         }
 
         /* Buttons */
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
         .btn-primary {
             background: linear-gradient(135deg, var(--maroon-primary) 0%, var(--maroon-dark) 100%);
             color: #FFFFFF !important;
-            padding: 10px 20px;
+            padding: 9px 18px;
             border-radius: var(--radius-md);
             font-weight: 600;
             transition: all 0.3s ease;
@@ -140,7 +147,7 @@
             gap: 8px;
             cursor: pointer;
             border: 1px solid var(--gold-primary);
-            font-size: 0.88rem;
+            font-size: 0.85rem;
             box-shadow: 0 4px 15px rgba(122, 0, 30, 0.3);
             white-space: nowrap;
         }
@@ -148,6 +155,28 @@
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 22px rgba(122, 0, 30, 0.45);
+        }
+
+        .btn-save-db {
+            background: linear-gradient(135deg, #16A34A 0%, #15803D 100%);
+            color: #FFFFFF !important;
+            padding: 9px 18px;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            font-size: 0.85rem;
+            box-shadow: 0 4px 15px rgba(22, 163, 74, 0.3);
+            white-space: nowrap;
+        }
+
+        .btn-save-db:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(22, 163, 74, 0.45);
         }
 
         .btn-add {
@@ -203,6 +232,31 @@
             cursor: pointer;
             z-index: 5;
         }
+
+        /* Firebase Status Indicator */
+        .db-status-bar {
+            background: rgba(15, 23, 42, 0.9);
+            color: #E2E8F0;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.3);
+            padding: 6px 0;
+            font-size: 0.8rem;
+            text-align: center;
+        }
+        .db-status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+        }
+        .db-status-badge .indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #94A3B8;
+        }
+        .db-status-badge.connected .indicator { background-color: #22C55E; box-shadow: 0 0 8px #22C55E; }
+        .db-status-badge.saving .indicator { background-color: #EAB308; box-shadow: 0 0 8px #EAB308; }
+        .db-status-badge.error .indicator { background-color: #EF4444; box-shadow: 0 0 8px #EF4444; }
 
         /* HERO / PROFIL UTAMA (TRANSPARAN HIGH-END CORPORATE HOME) */
         .hero { padding: 40px 0 28px; }
@@ -579,15 +633,10 @@
             animation: arrowPulse 1.8s infinite;
         }
 
-        /* ------------------------------------------------------------- */
-        /* MEDIA QUERIES: OTOMATIS BERGANTI TAMPILAN HP vs DESKTOP       */
-        /* ------------------------------------------------------------- */
-        
-        /* 1. TAMPILAN HP & TABLET KECIL (Android & iPhone: Screen <= 768px) */
+        /* MEDIA QUERIES */
         @media screen and (max-width: 768px) {
             .container { padding: 0 16px; }
 
-            /* Header Mobile */
             .nav-inner { height: 64px; }
             .menu-toggle { display: block; }
 
@@ -602,12 +651,11 @@
                 padding: 20px;
                 gap: 16px;
                 border-bottom: 1px solid var(--border-gold);
-                display: none; /* Ditembak via JS saat toggle clicked */
+                display: none;
             }
 
             .nav-links.active { display: flex; }
 
-            /* Hero Profile Mobile */
             .hero { padding: 20px 0 20px; }
             .hero-card { padding: 24px 18px; text-align: center; }
             .hero-grid { grid-template-columns: 1fr; gap: 20px; }
@@ -627,20 +675,17 @@
 
             .status-badge { font-size: 0.76rem; }
 
-            /* Section Header Mobile */
             .section-header {
                 padding: 10px 14px;
             }
             .section-title { font-size: 1.15rem; }
 
-            /* Card Slide Peek di HP */
             .cards-scroll-container {
                 padding: 10px 45px 20px 0px;
                 gap: 14px;
             }
 
             .card-horizontal {
-                /* Mengatur agar 1 kartu fokus penuh & kartu berikutnya mengintip di HP */
                 flex: 0 0 82vw;
                 padding: 16px;
             }
@@ -652,9 +697,16 @@
                 height: 32px;
                 font-size: 0.8rem;
             }
+
+            .header-actions {
+                gap: 6px;
+            }
+            .btn-save-db, .btn-primary {
+                padding: 7px 10px;
+                font-size: 0.78rem;
+            }
         }
 
-        /* 2. TAMPILAN DESKTOP & LAPTOP (Screen > 768px) */
         @media screen and (min-width: 769px) {
             .menu-toggle { display: none; }
             .nav-links { display: flex !important; }
@@ -665,6 +717,16 @@
 
     <!-- Latar Belakang Gedung Kantor Modern Transparan -->
     <div class="body-bg-overlay"></div>
+
+    <!-- Status Bar Firebase Realtime Database -->
+    <div class="db-status-bar">
+        <div class="container">
+            <span class="db-status-badge" id="dbStatusBadge">
+                <span class="indicator"></span>
+                <span id="dbStatusText">Menghubungkan ke Firebase Realtime Database (portofolio-8d90b)...</span>
+            </span>
+        </div>
+    </div>
 
     <!-- Header Navigasi -->
     <header>
@@ -683,7 +745,12 @@
                 <li><a href="#education" onclick="closeMobileMenu()">Pendidikan</a></li>
             </ul>
 
-            <a href="#" class="btn-primary"><i class="fa-solid fa-file-pdf"></i> Unduh CV</a>
+            <div class="header-actions">
+                <button class="btn-save-db" id="btnSaveFirebase" onclick="saveDataToFirebase()">
+                    <i class="fa-solid fa-cloud-arrow-up"></i> Simpan ke Firebase
+                </button>
+                <a href="#" class="btn-primary"><i class="fa-solid fa-file-pdf"></i> Unduh CV</a>
+            </div>
         </div>
     </header>
 
@@ -708,22 +775,22 @@
                             <span class="status-dot"></span>
                             Terbuka untuk Peluang Kerja & Konsultasi
                         </div>
-                        <h1 class="hero-title" contenteditable="true">[Nama Lengkap Anda]</h1>
-                        <p class="hero-subtitle" contenteditable="true">[Spesialisasi / Profesi Utama Anda]</p>
+                        <h1 class="hero-title" id="profileName" contenteditable="true">[Nama Lengkap Anda]</h1>
+                        <p class="hero-subtitle" id="profileTitle" contenteditable="true">[Spesialisasi / Profesi Utama Anda]</p>
                         
-                        <p class="hero-bio" contenteditable="true">
+                        <p class="hero-bio" id="profileBio" contenteditable="true">
                             Praktisi profesional berdedikasi tinggi dengan pengalaman strategis dalam manajemen operasional dan tata kelola perusahaan. Berfokus pada inovasi, efisiensi kerja tim, serta memberikan dampak positif yang berkelanjutan bagi pertumbuhan organisasi.
                         </p>
 
                         <!-- Kontak Utama -->
                         <div class="contact-info-group">
-                            <div class="contact-pill" contenteditable="true">
+                            <div class="contact-pill" contenteditable="true" id="contactLocation">
                                 <i class="fa-solid fa-location-dot"></i> Jakarta, Indonesia
                             </div>
-                            <div class="contact-pill" contenteditable="true">
+                            <div class="contact-pill" contenteditable="true" id="contactPhone">
                                 <i class="fa-brands fa-whatsapp"></i> +62 812-3456-7890
                             </div>
-                            <div class="contact-pill" contenteditable="true">
+                            <div class="contact-pill" contenteditable="true" id="contactEmail">
                                 <i class="fa-solid fa-envelope"></i> emailanda@gmail.com
                             </div>
                         </div>
@@ -731,16 +798,16 @@
                         <!-- Media Sosial -->
                         <div class="social-group">
                             <span style="font-size: 0.8rem; font-weight: 700; color: var(--gold-primary); margin-right: 4px;">Sosial:</span>
-                            <a href="#" class="social-link" contenteditable="true">
+                            <a href="#" class="social-link" contenteditable="true" id="socialInstagram">
                                 <i class="fa-brands fa-instagram"></i> @username
                             </a>
-                            <a href="#" class="social-link" contenteditable="true">
+                            <a href="#" class="social-link" contenteditable="true" id="socialFacebook">
                                 <i class="fa-brands fa-facebook"></i> Facebook
                             </a>
-                            <a href="#" class="social-link" contenteditable="true">
+                            <a href="#" class="social-link" contenteditable="true" id="socialLinkedin">
                                 <i class="fa-brands fa-linkedin"></i> LinkedIn
                             </a>
-                            <a href="#" class="social-link" contenteditable="true">
+                            <a href="#" class="social-link" contenteditable="true" id="socialWeb">
                                 <i class="fa-solid fa-globe"></i> Portofolio Web
                             </a>
                         </div>
@@ -971,7 +1038,190 @@
 
     </main>
 
-    <!-- Logic JavaScript -->
+    <!-- FIREBASE SDK V10 & KONEKSI REALTIME DATABASE -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, set, onValue, get, child } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        // Konfigurasi Firebase Realtime Database
+        const firebaseConfig = {
+            projectId: "portofolio-8d90b",
+            databaseURL: "https://portofolio-8d90b-default-rtdb.firebaseio.com" 
+            // Catatan: Jika database berada di Region Asia (misal: asia-southeast1), ganti URL dengan:
+            // databaseURL: "https://portofolio-8d90b-default-rtdb.asia-southeast1.firebasedatabase.app"
+        };
+
+        // Inisialisasi Firebase
+        let app, db;
+        try {
+            app = initializeApp(firebaseConfig);
+            db = getDatabase(app);
+            updateStatus('connected', 'Terhubung ke Firebase Realtime Database (portofolio-8d90b)');
+        } catch (e) {
+            console.error('Firebase Init Error:', e);
+            updateStatus('error', 'Gagal inisialisasi Firebase: ' + e.message);
+        }
+
+        function updateStatus(type, text) {
+            const badge = document.getElementById('dbStatusBadge');
+            const statusText = document.getElementById('dbStatusText');
+            if (badge && statusText) {
+                badge.className = 'db-status-badge ' + type;
+                statusText.innerText = text;
+            }
+        }
+
+        // --- BACA DATA DARI FIREBASE SAAT HALAMAN DIMUAT ---
+        if (db) {
+            const portfolioRef = ref(db, 'portofolio_data');
+            onValue(portfolioRef, (snapshot) => {
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    populateDataFromFirebase(data);
+                    updateStatus('connected', 'Data portofolio terisi dari Firebase Realtime Database');
+                } else {
+                    updateStatus('connected', 'Firebase terhubung (Database belum terisi data, klik "Simpan ke Firebase" untuk menyimpan)');
+                }
+            }, (error) => {
+                console.error("Firebase Read Error:", error);
+                updateStatus('error', 'Gagal membaca data Firebase (Periksa aturan Security Rules)');
+            });
+        }
+
+        // --- SIMPAN DATA KE FIREBASE ---
+        window.saveDataToFirebase = async function() {
+            if (!db) {
+                alert('Firebase belum terinisialisasi!');
+                return;
+            }
+
+            updateStatus('saving', 'Sedang menyimpan data ke Firebase...');
+
+            try {
+                // Kumpulkan Data Profil
+                const profileData = {
+                    img: document.getElementById('profileImg').src,
+                    name: document.getElementById('profileName').innerHTML,
+                    title: document.getElementById('profileTitle').innerHTML,
+                    bio: document.getElementById('profileBio').innerHTML,
+                    location: document.getElementById('contactLocation').innerHTML,
+                    phone: document.getElementById('contactPhone').innerHTML,
+                    email: document.getElementById('contactEmail').innerHTML,
+                    instagram: document.getElementById('socialInstagram').innerHTML,
+                    facebook: document.getElementById('socialFacebook').innerHTML,
+                    linkedin: document.getElementById('socialLinkedin').innerHTML,
+                    web: document.getElementById('socialWeb').innerHTML
+                };
+
+                // Kumpulkan Data Section
+                const experienceData = getSectionData('experienceContainer');
+                const skillsData = getSectionData('skillsContainer');
+                const organizationData = getSectionData('organizationContainer');
+                const educationData = getSectionData('educationContainer');
+
+                const fullPortfolioData = {
+                    profile: profileData,
+                    experience: experienceData,
+                    skills: skillsData,
+                    organization: organizationData,
+                    education: educationData,
+                    lastUpdated: new Date().toISOString()
+                };
+
+                // Simpan ke node 'portofolio_data'
+                await set(ref(db, 'portofolio_data'), fullPortfolioData);
+                updateStatus('connected', 'Portofolio Berhasil Disimpan ke Firebase!');
+                alert('Success! Data portofolio Anda telah tersimpan dengan aman di Firebase Realtime Database.');
+            } catch (err) {
+                console.error('Save Error:', err);
+                updateStatus('error', 'Gagal menyimpan: ' + err.message);
+                alert('Gagal menyimpan ke Firebase!
+' + err.message + '
+
+Pastikan Realtime Database Security Rules diubah ke mode Test (read/write = true).');
+            }
+        };
+
+        function getSectionData(containerId) {
+            const container = document.getElementById(containerId);
+            const cards = container.querySelectorAll('.card-horizontal');
+            const items = [];
+
+            cards.forEach(card => {
+                items.push({
+                    img: card.querySelector('.photo-box-top img')?.src || '',
+                    title: card.querySelector('.item-title')?.innerHTML || '',
+                    subtitle: card.querySelector('.item-subtitle')?.innerHTML || '',
+                    date: card.querySelector('.date-badge')?.innerHTML || '',
+                    desc: card.querySelector('.item-desc')?.innerHTML || ''
+                });
+            });
+
+            return items;
+        }
+
+        function populateDataFromFirebase(data) {
+            if (data.profile) {
+                if (data.profile.img) document.getElementById('profileImg').src = data.profile.img;
+                if (data.profile.name) document.getElementById('profileName').innerHTML = data.profile.name;
+                if (data.profile.title) document.getElementById('profileTitle').innerHTML = data.profile.title;
+                if (data.profile.bio) document.getElementById('profileBio').innerHTML = data.profile.bio;
+                if (data.profile.location) document.getElementById('contactLocation').innerHTML = data.profile.location;
+                if (data.profile.phone) document.getElementById('contactPhone').innerHTML = data.profile.phone;
+                if (data.profile.email) document.getElementById('contactEmail').innerHTML = data.profile.email;
+                if (data.profile.instagram) document.getElementById('socialInstagram').innerHTML = data.profile.instagram;
+                if (data.profile.facebook) document.getElementById('socialFacebook').innerHTML = data.profile.facebook;
+                if (data.profile.linkedin) document.getElementById('socialLinkedin').innerHTML = data.profile.linkedin;
+                if (data.profile.web) document.getElementById('socialWeb').innerHTML = data.profile.web;
+            }
+
+            if (data.experience && Array.isArray(data.experience) && data.experience.length > 0) {
+                renderSectionCards('experienceContainer', data.experience);
+            }
+            if (data.skills && Array.isArray(data.skills) && data.skills.length > 0) {
+                renderSectionCards('skillsContainer', data.skills);
+            }
+            if (data.organization && Array.isArray(data.organization) && data.organization.length > 0) {
+                renderSectionCards('organizationContainer', data.organization);
+            }
+            if (data.education && Array.isArray(data.education) && data.education.length > 0) {
+                renderSectionCards('educationContainer', data.education);
+            }
+        }
+
+        function renderSectionCards(containerId, items) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = ''; // bersihkan dummy cards
+            items.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card-horizontal';
+                card.innerHTML = `
+                    <button class="btn-delete-item" onclick="this.closest('.card-horizontal').remove()"><i class="fa-solid fa-trash"></i> Hapus</button>
+                    <div class="photo-box-top">
+                        <img src="${item.img || 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=600&q=80'}" alt="Foto Item">
+                        <div class="photo-slide-hint">
+                            <span>Geser slide</span> <i class="fa-solid fa-arrow-right-long"></i>
+                        </div>
+                        <label class="photo-upload-overlay">
+                            <i class="fa-solid fa-camera"></i> Ubah Foto
+                            <input type="file" accept="image/*" onchange="previewImage(this)" style="display: none;">
+                        </label>
+                    </div>
+                    <div class="item-title" contenteditable="true">${item.title}</div>
+                    <div class="item-subtitle" contenteditable="true">${item.subtitle}</div>
+                    <span class="date-badge" contenteditable="true">${item.date}</span>
+                    <div class="item-desc" contenteditable="true">${item.desc}</div>
+                    <div class="card-footer-hint">
+                        <span><i class="fa-solid fa-circle-info"></i> Informasi</span>
+                        <span>Geser selanjutnya <i class="fa-solid fa-arrow-right-long"></i></span>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+    </script>
+
+    <!-- Logic UI JavaScript -->
     <script>
         // --- MOBILE NAV MENU TOGGLE ---
         const menuToggle = document.getElementById('menuToggle');
@@ -1003,7 +1253,6 @@
         const SLIDE_INTERVAL = 15000;
 
         function getScrollWidth() {
-            // Menyesuaikan lebar scroll otomatis berdasarkan ukuran layar HP / Desktop
             return window.innerWidth <= 768 ? window.innerWidth * 0.82 : 350;
         }
 
