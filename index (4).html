@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <!-- Meta Viewport untuk Auto-Detect Layar HP (Android/iPhone) & Desktop -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Portofolio Eksekutif - Modern Corporate Showcase</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            /* Corporate Palette */
+            --bg-glass-hero: rgba(11, 19, 43, 0.65);
+            --bg-glass-card: rgba(255, 255, 255, 0.93);
+            --text-main: #0F172A;
+            --text-muted: #475569;
+            --text-light: #F8FAFC;
+            
+            --maroon-primary: #7A001E;
+            --maroon-dark: #4A0012;
+            --maroon-soft: rgba(122, 0, 30, 0.08);
+            
+            --gold-primary: #C5A059;
+            --gold-hover: #D4AF37;
+            --gold-light: rgba(197, 160, 89, 0.15);
+            --border-gold: rgba(197, 160, 89, 0.4);
+            
+            --border-light: rgba(226, 232, 240, 0.8);
+            --danger: #DC2626;
+            --success: #16A34A;
+            
+            --radius-md: 12px;
+            --radius-lg: 20px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #0B132B;
+            color: var(--text-main);
+            line-height: 1.6;
+            padding-bottom: 60px;
+            position: relative;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Fixed Corporate Background */
+        .body-bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, rgba(11, 19, 43, 0.88) 0%, rgba(74, 0, 18, 0.82) 100%),
+                        url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=2000&q=80') center/cover no-repeat fixed;
+            z-index: -1;
+        }
+
+        a { text-decoration: none; color: inherit; }
+
+        .container {
+            max-width: 1160px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Header / Navbar Glassmorphism */
+        header {
+            position: sticky;
+            top: 0;
+            background: rgba(11, 19, 43, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-gold);
+            z-index: 100;
+        }
+
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 76px;
+        }
+
+        .logo { 
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem; 
+            font-weight: 800; 
+            color: #FFFFFF; 
+            letter-spacing: 0.5px;
+        }
+        .logo span { color: var(--gold-primary); }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.85);
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover { color: var(--gold-primary); }
+
+        /* Mobile Hamburger Button */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #FFFFFF;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 6px;
+        }
+
+        /* Buttons */
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--maroon-primary) 0%, var(--maroon-dark) 100%);
+            color: #FFFFFF !important;
+            padding: 9px 18px;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            border: 1px solid var(--gold-primary);
+            font-size: 0.85rem;
+            box-shadow: 0 4px 15px rgba(122, 0, 30, 0.3);
+            white-space: nowrap;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(122, 0, 30, 0.45);
+        }
+
+        .btn-save-db {
+            background: linear-gradient(135deg, #16A34A 0%, #15803D 100%);
+            color: #FFFFFF !important;
+            padding: 9px 18px;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            font-size: 0.85rem;
+            box-shadow: 0 4px 15px rgba(22, 163, 74, 0.3);
+            white-space: nowrap;
+        }
+
+        .btn-save-db:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(22, 163, 74, 0.45);
+        }
+
+        .btn-add {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--maroon-primary);
+            border: 1px solid var(--border-gold);
+            padding: 7px 14px;
+            border-radius: var(--radius-md);
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-add:hover { 
+            background: var(--maroon-primary); 
+            color: #FFFFFF;
+        }
+
+        .btn-nav-scroll {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid var(--border-gold);
+            color: var(--maroon-primary);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-nav-scroll:hover {
+            background: var(--maroon-primary);
+            color: #FFFFFF;
+        }
+
+        .btn-delete-item {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(220, 38, 38, 0.9);
+            color: #FFFFFF;
+            border: none;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            z-index: 5;
+        }
+
+        /* Firebase Status Indicator */
+        .db-status-bar {
+            background: rgba(15, 23, 42, 0.9);
+            color: #E2E8F0;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.3);
+            padding: 6px 0;
+            font-size: 0.8rem;
+            text-align: center;
+        }
+        .db-status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+        }
+        .db-status-badge .indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #94A3B8;
+        }
+        .db-status-badge.connected .indicator { background-color: #22C55E; box-shadow: 0 0 8px #22C55E; }
+        .db-status-badge.saving .indicator { background-color: #EAB308; box-shadow: 0 0 8px #EAB308; }
+        .db-status-badge.error .indicator { background-color: #EF4444; box-shadow: 0 0 8px #EF4444; }
+
+        /* HERO / PROFIL UTAMA (TRANSPARAN HIGH-END CORPORATE HOME) */
+        .hero { padding: 40px 0 28px; }
+
+        .hero-card {
+            background: var(--bg-glass-hero);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-gold);
+            border-top: 4px solid var(--gold-primary);
+            border-radius: var(--radius-lg);
+            padding: 36px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+            color: var(--text-light);
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 210px 1fr;
+            gap: 36px;
+            align-items: center;
+        }
+
+        .profile-photo-box {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid var(--gold-primary);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            background: #1E293B;
+            margin: 0 auto;
+        }
+
+        .profile-photo-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .profile-upload-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(122, 0, 30, 0.85);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            color: #FFFFFF;
+            font-size: 0.85rem;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.25s ease;
+            cursor: pointer;
+        }
+
+        .profile-photo-box:hover .profile-upload-overlay { opacity: 1; }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: rgba(197, 160, 89, 0.2);
+            color: var(--gold-hover);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            border: 1px solid var(--border-gold);
+            margin-bottom: 14px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--gold-primary);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--gold-primary);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.2); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            line-height: 1.15;
+            color: #FFFFFF;
+            margin-bottom: 4px;
+            letter-spacing: -0.5px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--gold-primary);
+            font-weight: 700;
+            margin-bottom: 14px;
+        }
+
+        .hero-bio {
+            font-size: 0.96rem;
+            color: rgba(255, 255, 255, 0.88);
+            line-height: 1.65;
+            margin-bottom: 20px;
+        }
+
+        .contact-info-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .contact-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #FFFFFF;
+        }
+
+        .contact-pill i { color: var(--gold-primary); }
+
+        .social-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+            border-top: 1px dashed rgba(197, 160, 89, 0.3);
+            padding-top: 16px;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(197, 160, 89, 0.15);
+            color: #FFFFFF;
+            border: 1px solid var(--border-gold);
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .social-link:hover {
+            background: var(--gold-primary);
+            color: var(--maroon-dark);
+        }
+
+        /* Section Layout */
+        .section { margin-bottom: 40px; }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            background: rgba(11, 19, 43, 0.65);
+            backdrop-filter: blur(12px);
+            padding: 12px 18px;
+            border-radius: var(--radius-md);
+            border-left: 4px solid var(--gold-primary);
+            border-right: 1px solid var(--border-gold);
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .section-title-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title { 
+            font-family: 'Playfair Display', serif;
+            font-size: 1.35rem; 
+            font-weight: 700; 
+            color: #FFFFFF;
+        }
+
+        .section-icon { color: var(--gold-primary); font-size: 1.2rem; }
+
+        .section-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* KARTU SLIDE DENGAN TULISAN & PANAH ELEGAN */
+        .cards-scroll-container {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding: 10px 65px 20px 5px;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .cards-scroll-container::-webkit-scrollbar { height: 6px; }
+        .cards-scroll-container::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+        }
+        .cards-scroll-container::-webkit-scrollbar-thumb {
+            background: var(--gold-primary);
+            border-radius: 10px;
+        }
+
+        .card-horizontal {
+            flex: 0 0 330px;
+            scroll-snap-align: start;
+            background: var(--bg-glass-card);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-gold);
+            border-top: 4px solid var(--maroon-primary);
+            border-radius: var(--radius-lg);
+            padding: 18px;
+            box-shadow: 
+                0 12px 28px -5px rgba(0, 0, 0, 0.35),
+                8px 0 18px -5px rgba(0, 0, 0, 0.15);
+            position: relative;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            user-select: none;
+        }
+
+        .card-horizontal:hover { 
+            border-color: var(--gold-primary);
+            transform: translateY(-4px);
+            z-index: 10;
+        }
+
+        .photo-box-top {
+            position: relative;
+            width: 100%;
+            height: 160px;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            border: 1px solid var(--border-gold);
+            background: #E2E8F0;
+            margin-bottom: 12px;
+        }
+
+        .photo-box-top img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .photo-slide-hint {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(11, 19, 43, 0.9), rgba(11, 19, 43, 0));
+            padding: 10px 10px 6px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 6px;
+            color: var(--gold-hover);
+            font-size: 0.74rem;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            pointer-events: none;
+        }
+
+        .photo-slide-hint i {
+            animation: arrowPulse 1.8s infinite;
+            color: #FFFFFF;
+        }
+
+        @keyframes arrowPulse {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(5px); }
+        }
+
+        .photo-upload-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(122, 0, 30, 0.85);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            color: #FFFFFF;
+            font-size: 0.8rem;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .photo-box-top:hover .photo-upload-overlay { opacity: 1; }
+
+        .item-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--maroon-primary);
+            margin-bottom: 2px;
+        }
+
+        .item-subtitle {
+            font-size: 0.88rem;
+            color: var(--gold-hover);
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .date-badge {
+            display: inline-block;
+            background: var(--gold-light);
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.76rem;
+            font-weight: 700;
+            color: var(--maroon-primary);
+            border: 1px solid var(--border-gold);
+            margin-bottom: 8px;
+            align-self: flex-start;
+        }
+
+        .item-desc {
+            color: var(--text-muted);
+            font-size: 0.86rem;
+            line-height: 1.5;
+            flex-grow: 1;
+        }
+
+        .item-desc ul { padding-left: 16px; }
+
+        .card-footer-hint {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 12px;
+            padding-top: 8px;
+            border-top: 1px solid rgba(197, 160, 89, 0.25);
+            font-size: 0.74rem;
+            font-weight: 700;
+            color: var(--maroon-primary);
+        }
+
+        .card-footer-hint span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .card-footer-hint i {
+            color: var(--gold-primary);
+            animation: arrowPulse 1.8s infinite;
+        }
+
+        /* MEDIA QUERIES */
+        @media screen and (max-width: 768px) {
+            .container { padding: 0 16px; }
+
+            .nav-inner { height: 64px; }
+            .menu-toggle { display: block; }
+
+            .nav-links {
+                position: absolute;
+                top: 64px;
+                left: 0;
+                right: 0;
+                background: rgba(11, 19, 43, 0.95);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 20px;
+                gap: 16px;
+                border-bottom: 1px solid var(--border-gold);
+                display: none;
+            }
+
+            .nav-links.active { display: flex; }
+
+            .hero { padding: 20px 0 20px; }
+            .hero-card { padding: 24px 18px; text-align: center; }
+            .hero-grid { grid-template-columns: 1fr; gap: 20px; }
+
+            .profile-photo-box {
+                width: 150px;
+                height: 150px;
+            }
+
+            .hero-title { font-size: 1.85rem; }
+            .hero-subtitle { font-size: 1.05rem; }
+            .hero-bio { font-size: 0.9rem; text-align: justify; }
+
+            .contact-info-group, .social-group {
+                justify-content: center;
+            }
+
+            .status-badge { font-size: 0.76rem; }
+
+            .section-header {
+                padding: 10px 14px;
+            }
+            .section-title { font-size: 1.15rem; }
+
+            .cards-scroll-container {
+                padding: 10px 45px 20px 0px;
+                gap: 14px;
+            }
+
+            .card-horizontal {
+                flex: 0 0 82vw;
+                padding: 16px;
+            }
+
+            .photo-box-top { height: 145px; }
+
+            .btn-nav-scroll {
+                width: 32px;
+                height: 32px;
+                font-size: 0.8rem;
+            }
+
+            .header-actions {
+                gap: 6px;
+            }
+            .btn-save-db, .btn-primary {
+                padding: 7px 10px;
+                font-size: 0.78rem;
+            }
+        }
+
+        @media screen and (min-width: 769px) {
+            .menu-toggle { display: none; }
+            .nav-links { display: flex !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Latar Belakang Gedung Kantor Modern Transparan -->
+    <div class="body-bg-overlay"></div>
+
+    <!-- Status Bar Firebase Realtime Database -->
+    <div class="db-status-bar">
+        <div class="container">
+            <span class="db-status-badge" id="dbStatusBadge">
+                <span class="indicator"></span>
+                <span id="dbStatusText">Menghubungkan ke Firebase Realtime Database (portofolio-8d90b)...</span>
+            </span>
+        </div>
+    </div>
+
+    <!-- Header Navigasi -->
+    <header>
+        <div class="container nav-inner">
+            <div class="logo">Portofolio<span>.Eksekutif</span></div>
+            
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle Menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#about" onclick="closeMobileMenu()">Tentang Saya</a></li>
+                <li><a href="#experience" onclick="closeMobileMenu()">Pengalaman</a></li>
+                <li><a href="#skills" onclick="closeMobileMenu()">Keahlian</a></li>
+                <li><a href="#organization" onclick="closeMobileMenu()">Organisasi</a></li>
+                <li><a href="#education" onclick="closeMobileMenu()">Pendidikan</a></li>
+            </ul>
+
+            <div class="header-actions">
+                <button class="btn-save-db" id="btnSaveFirebase" onclick="saveDataToFirebase()">
+                    <i class="fa-solid fa-cloud-arrow-up"></i> Simpan ke Firebase
+                </button>
+                <a href="#" class="btn-primary"><i class="fa-solid fa-file-pdf"></i> Unduh CV</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Hero / Profil Transparan Ala Home Perusahaan Besar -->
+        <section class="hero" id="about">
+            <div class="hero-card">
+                <div class="hero-grid">
+                    <!-- Foto Profil -->
+                    <div class="profile-photo-box">
+                        <img id="profileImg" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80" alt="Foto Profil Anda">
+                        <label class="profile-upload-overlay">
+                            <i class="fa-solid fa-camera fa-lg"></i>
+                            <span>Ubah Foto</span>
+                            <input type="file" accept="image/*" onchange="updateProfileImage(this)" style="display: none;">
+                        </label>
+                    </div>
+
+                    <!-- Data Diri & Kontak -->
+                    <div>
+                        <div class="status-badge">
+                            <span class="status-dot"></span>
+                            Terbuka untuk Peluang Kerja & Konsultasi
+                        </div>
+                        <h1 class="hero-title" id="profileName" contenteditable="true">[Nama Lengkap Anda]</h1>
+                        <p class="hero-subtitle" id="profileTitle" contenteditable="true">[Spesialisasi / Profesi Utama Anda]</p>
+                        
+                        <p class="hero-bio" id="profileBio" contenteditable="true">
+                            Praktisi profesional berdedikasi tinggi dengan pengalaman strategis dalam manajemen operasional dan tata kelola perusahaan. Berfokus pada inovasi, efisiensi kerja tim, serta memberikan dampak positif yang berkelanjutan bagi pertumbuhan organisasi.
+                        </p>
+
+                        <!-- Kontak Utama -->
+                        <div class="contact-info-group">
+                            <div class="contact-pill" contenteditable="true" id="contactLocation">
+                                <i class="fa-solid fa-location-dot"></i> Jakarta, Indonesia
+                            </div>
+                            <div class="contact-pill" contenteditable="true" id="contactPhone">
+                                <i class="fa-brands fa-whatsapp"></i> +62 812-3456-7890
+                            </div>
+                            <div class="contact-pill" contenteditable="true" id="contactEmail">
+                                <i class="fa-solid fa-envelope"></i> emailanda@gmail.com
+                            </div>
+                        </div>
+
+                        <!-- Media Sosial -->
+                        <div class="social-group">
+                            <span style="font-size: 0.8rem; font-weight: 700; color: var(--gold-primary); margin-right: 4px;">Sosial:</span>
+                            <a href="#" class="social-link" contenteditable="true" id="socialInstagram">
+                                <i class="fa-brands fa-instagram"></i> @username
+                            </a>
+                            <a href="#" class="social-link" contenteditable="true" id="socialFacebook">
+                                <i class="fa-brands fa-facebook"></i> Facebook
+                            </a>
+                            <a href="#" class="social-link" contenteditable="true" id="socialLinkedin">
+                                <i class="fa-brands fa-linkedin"></i> LinkedIn
+                            </a>
+                            <a href="#" class="social-link" contenteditable="true" id="socialWeb">
+                                <i class="fa-solid fa-globe"></i> Portofolio Web
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 1. PENGALAMAN KERJA -->
+        <section class="section" id="experience">
+            <div class="section-header">
+                <div class="section-title-group">
+                    <i class="fa-solid fa-briefcase section-icon"></i>
+                    <h2 class="section-title">Pengalaman Kerja</h2>
+                </div>
+                <div class="section-controls">
+                    <button class="btn-nav-scroll" onclick="scrollSection('experienceContainer', -1)"><i class="fa-solid fa-chevron-left"></i></button>
+                    <button class="btn-nav-scroll" onclick="scrollSection('experienceContainer', 1)"><i class="fa-solid fa-chevron-right"></i></button>
+                    <button class="btn-add" onclick="addExperience()"><i class="fa-solid fa-plus"></i> Tambah</button>
+                </div>
+            </div>
+
+            <div class="cards-scroll-container" id="experienceContainer">
+                <!-- Card 1 -->
+                <div class="card-horizontal">
+                    <button class="btn-delete-item" onclick="this.closest('.card-horizontal').remove()"><i class="fa-solid fa-trash"></i> Hapus</button>
+                    <div class="photo-box-top">
+                        <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=600&q=80" alt="Foto Pengalaman 1">
+                        <div class="photo-slide-hint">
+                            <span>Geser slide</span> <i class="fa-solid fa-arrow-right-long"></i>
+                        </div>
+                        <label class="photo-upload-overlay">
+                            <i class="fa-solid fa-camera"></i> Ubah Foto
+                            <input type="file" accept="image/*" onchange="previewImage(this)" style="display: none;">
+                        </label>
+                    </div>
+                    <div class="item-title" contenteditable="true">[Posisi Jabatan 1]</div>
+                    <div class="item-subtitle" contenteditable="true">PT Perusahaan Utama</div>
+                    <span class="date-badge" contenteditable="true">2023 - Sekarang</span>
+                    <div class="item-desc" contenteditable="true">
+                        <ul>
+                            <li>Mengendalikan tata kelola operasional perusahaan.</li>
+                            <li>Meningkatkan efisiensi kerja tim sebesar 30%.</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer-hint">
+                        <span><i class="fa-solid fa-circle-info"></i> Detail Pengalaman</span>
+                        <span>Geser selanjutnya <i class="fa-solid fa-arrow-right-long"></i></span>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="card-horizontal">
+                    <button class="btn-delete-item" onclick="this.closest('.card-horizontal').remove()"><i class="fa-solid fa-trash"></i> Hapus</button>
+                    <div class="photo-box-top">
+                        <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=600&q=80" alt="Foto Pengalaman 2">
+                        <div class="photo-slide-hint">
+                            <span>Geser slide</span> <i class="fa-solid fa-arrow-right-long"></i>
+                        </div>
+                        <label class="photo-upload-overlay">
+                            <i class="fa-solid fa-camera"></i> Ubah Foto
+                            <input type="file" accept="image/*" onchange="previewImage(this)" style="display: none;">
+                        </label>
+                    </div>
+                    <div class="item-title" contenteditable="true">[Posisi Jabatan 2]</div>
+                    <div class="item-subtitle" contenteditable="true">Corporate Management Ltd.</div>
+                    <span class="date-badge" contenteditable="true">2021 - 2023</span>
+                    <div class="item-desc" contenteditable="true">
+                        <ul>
+                            <li>Mengkoordinasikan proyek strategis antar divisi.</li>
+                            <li>Memimpin kampanye ekspansi bisnis daerah.</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer-hint">
+                        <span><i class="fa-solid fa-circle-info"></i> Detail Pengalaman</span>
+                        <span>Geser selanjutnya <i class="fa-solid fa-arrow-right-long"></i></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. KEAHLIAN & SPESIALISASI -->
+        <section class="section" id="skills">
+            <div class="section-header">
+                <div class="section-title-group">
+                    <i class="fa-solid fa-layer-group section-icon"></i>
+                    <h2 class="section-title">Keahlian & Spesialisasi</h2>
+                </div>
+                <div class="section-controls">
+                    <button class="btn-nav-scroll" onclick="scrollSection('skillsContainer', -1)"><i class="fa-solid fa-chevron-left"></i></button>
+                    <button class="btn-nav-scroll" onclick="scrollSection('skillsContainer', 1)"><i class="fa-solid fa-chevron-right"></i></button>
+                    <button class="btn-add" onclick="addSkill()"><i class="fa-solid fa-plus"></i> Tambah</button>
+                </div>
+            </div>
+
+            <div class="cards-scroll-container" id="skillsContainer">
+                <div class="card-horizontal">
+                    <button class="btn-delete-item" onclick="this.closest('.card-horizontal').remove()"><i class="fa-solid fa-trash"></i> Hapus</button>
+                    <div class="photo-box-top">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80" alt="Foto Keahlian 1">
+                        <div class="photo-slide-hint">
+                            <span>Geser slide</span> <i class="fa-solid fa-arrow-right-long"></i>
+                        </div>
+                        <label class="photo-upload-overlay">
+                            <i class="fa-solid fa-camera"></i> Ubah Foto
+                            <input type="file" accept="image/*" onchange="previewImage(this)" style="display: none;">
+                        </label>
+                    </div>
+                    <div class="item-title" contenteditable="true">Perencanaan Strategis</div>
+                    <div class="item-subtitle" contenteditable="true">Spesialisasi Manajemen</div>
+                    <span class="date-badge" contenteditable="true">Tingkat Mahir</span>
+                    <div class="item-desc" contenteditable="true">
+                        Penguasaan penuh dalam menyusun alur kerja bisnis, pemetaan risiko, dan analisis tren pasar.
+                    </div>
+                    <div class="card-footer-hint">
+                        <span><i class="fa-solid fa-award"></i> Tingkat Ahli</span>
+                        <span>Geser selanjutnya <i class="fa-solid fa-arrow-right-long"></i></span>
+                    </div>
+                </div>
+
+                <div class="card-horizontal">
+                    <button class="btn-delete-item" onclick="this.closest('.card-horizontal').remove()"><i class="fa-solid fa-trash"></i> Hapus</button>
+                    <div class="photo-box-top">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80" alt="Foto Keahlian 2">
+                        <div class="photo-slide-hint">
+                            <span>Geser slide</span> <i class="fa-solid fa-arrow-right-long"></i>
+                        </div>
+                        <label class="photo-upload-overlay">
+                            <i class="fa-solid fa-camera"></i> Ubah Foto
+                            <input type="file" accept="image/*" onchange="previewImage(this)" style="display: none;">
+                        </label>
+                    </div>
+                    <div class="item-title" contenteditable="true">Kepemimpinan Tim</div>
+                    <div class="item-subtitle" contenteditable="true">Pengembangan SDM</div>
+                    <span class="date-badge" contenteditable="true">Tingkat Mahir</span>
+                    <div class="item-desc" contenteditable="true">
+                        Memiliki kemampuan supervisi, mentoring, serta penyelesaian konflik secara efisien.
+                    </div>
+                    <div class="card-footer-hint">
+                        <span><i class="fa-solid fa-award"></i> Tingkat Ahli</span>
+                        <span>Geser selanjutnya <i class="fa-solid fa-arrow-right-long"></i></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. RIWAYAT ORGANISASI -->
+        <section class="section" id="organization">
+            <div class="section-header">
+                <div class="section-title-group">
+                    <i class="fa-solid fa-users section-icon"></i>
+                    <h2 class="section-title">Riwayat Organisasi</h2>
+                </div>
+                <div class="section-controls">
+                    <button class="btn-nav-scroll" onclick="scrollSection('organizationContainer', -1)"><i class="fa-solid fa-chevron-left"></i></button>
+                    <button class="btn-nav-scroll" onclick="scrollSection('organizationContainer', 1)"><i class="fa-solid fa-chevron-right"></i></button>
+                    <button class="btn-add" onclick="addOrganization()"><i class="fa-solid fa-plus"></i> Tambah</button>
+                </div>
+            </div>
+
+            <div class="cards-scroll-container" id="organizationContainer">
+                <div class="card-horizontal">
+                    <button class="btn-delete-item" onclick="this.closest('.card-horizontal').remove()"><i class="fa-solid fa-trash"></i> Hapus</button>
+                    <div class="photo-box-top">
+                        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80" alt="Foto Organisasi 1">
+                        <div class="photo-slide-hint">
+                            <span>Geser slide</span> <i class="fa-solid fa-arrow-right-long"></i>
+                        </div>
+                        <label class="photo-upload-overlay">
+                            <i class="fa-solid fa-camera"></i> Ubah Foto
+                            <input type="file" accept="image/*" onchange="previewImage(this)" style="display: none;">
+                        </label>
+                    </div>
+                    <div class="item-title" contenteditable="true">Ketua Divisi Eksternal</div>
+                    <div class="item-subtitle" contenteditable="true">Asosiasi Profesional Indonesia</div>
+                    <span class="date-badge" contenteditable="true">2022 - 2023</span>
+                    <div class="item-desc" contenteditable="true">
+                        Memimpin forum komunikasi eksternal dan memfasilitasi kerjasama strategis antar instansi.
+                    </div>
+                    <div class="card-footer-hint">
+                        <span><i class="fa-solid fa-users-gear"></i> Aktivitas</span>
+                        <span>Geser selanjutnya <i class="fa-solid fa-arrow-right-long"></i></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. PENDIDIKAN & SERTIFIKASI -->
+        <section class="section" id="education">
+            <div class="section-header">
+                <div class="section-title-group">
+                    <i class="fa-solid fa-graduation-cap section-icon"></i>
+                    <h2 class="section-title">Pendidikan & Sertifikasi</h2>
+                </div>
+                <div class="section-controls">
+                    <button class="btn-nav-scroll" onclick="scrollSection('educationContainer', -1)"><i class="fa-solid fa-chevron-left"></i></button>
+                    <button class="btn-nav-scroll" onclick="scrollSection('educationContainer', 1)"><i class="fa-solid fa-chevron-right"></i></button>
+                    <button class="btn-add" onclick="addEducation()"><i class="fa-solid fa-plus"></i> Tambah</button>
+                </div>
+            </div>
+
+            <div class="cards-scroll-container" id="educationContainer">
+                <div class="card-horizontal">
+                    <button class="btn-delete-item" onclick="this.closest('.card-horizontal').remove()"><i class="fa-solid fa-trash"></i> Hapus</button>
+                    <div class="photo-box-top">
+                        <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=600&q=80" alt="Foto Pendidikan 1">
+                        <div class="photo-slide-hint">
+                            <span>Geser slide</span> <i class="fa-solid fa-arrow-right-long"></i>
+                        </div>
+                        <label class="photo-upload-overlay">
+                            <i class="fa-solid fa-camera"></i> Ubah Foto
+                            <input type="file" accept="image/*" onchange="previewImage(this)" style="display: none;">
+                        </label>
+                    </div>
+                    <div class="item-title" contenteditable="true">Sarjana (S1) - [Nama Jurusan]</div>
+                    <div class="item-subtitle" contenteditable="true">Universitas Negeri Terkemuka</div>
+                    <span class="date-badge" contenteditable="true">Lulusan Terbaik</span>
+                    <div class="item-desc" contenteditable="true">
+                        Fokus pada studi manajemen operasional. Lulus predikat Cum Laude.
+                    </div>
+                    <div class="card-footer-hint">
+                        <span><i class="fa-solid fa-graduation-cap"></i> Kualifikasi</span>
+                        <span>Geser selanjutnya <i class="fa-solid fa-arrow-right-long"></i></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FIREBASE SDK V10 & KONEKSI REALTIME DATABASE -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, set, onValue, get, child } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        // Konfigurasi Firebase Realtime Database
+        const firebaseConfig = {
+            projectId: "portofolio-8d90b",
+            databaseURL: "https://portofolio-8d90b-default-rtdb.firebaseio.com" 
+            // Catatan: Jika database berada di Region Asia (misal: asia-southeast1), ganti URL dengan:
+            // databaseURL: "https://portofolio-8d90b-default-rtdb.asia-southeast1.firebasedatabase.app"
+        };
+
+        // Inisialisasi Firebase
+        let app, db;
+        try {
+            app = initializeApp(firebaseConfig);
+            db = getDatabase(app);
+            updateStatus('connected', 'Terhubung ke Firebase Realtime Database (portofolio-8d90b)');
+        } catch (e) {
+            console.error('Firebase Init Error:', e);
+            updateStatus('error', 'Gagal inisialisasi Firebase: ' + e.message);
+        }
+
+        function updateStatus(type, text) {
+            const badge = document.getElementById('dbStatusBadge');
+            const statusText = document.getElementById('dbStatusText');
+            if (badge && statusText) {
+                badge.className = 'db-status-badge ' + type;
+                statusText.innerText = text;
+            }
+        }
+
+        // --- BACA DATA DARI FIREBASE SAAT HALAMAN DIMUAT ---
+        if (db) {
+            const portfolioRef = ref(db, 'portofolio_data');
+            onValue(portfolioRef, (snapshot) => {
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    populateDataFromFirebase(data);
+                    updateStatus('connected', 'Data portofolio terisi dari Firebase Realtime Database');
+                } else {
+                    updateStatus('connected', 'Firebase terhubung (Database belum terisi data, klik "Simpan ke Firebase" untuk menyimpan)');
+                }
+            }, (error) => {
+                console.error("Firebase Read Error:", error);
+                updateStatus('error', 'Gagal membaca data Firebase (Periksa aturan Security Rules)');
+            });
+        }
+
+        // --- SIMPAN DATA KE FIREBASE ---
+        window.saveDataToFirebase = async function() {
+            if (!db) {
+                alert('Firebase belum terinisialisasi!');
+                return;
+            }
+
+            updateStatus('saving', 'Sedang menyimpan data ke Firebase...');
+
+            try {
+                // Kumpulkan Data Profil
+                const profileData = {
+                    img: document.getElementById('profileImg').src,
+                    name: document.getElementById('profileName').innerHTML,
+                    title: document.getElementById('profileTitle').innerHTML,
+                    bio: document.getElementById('profileBio').innerHTML,
+                    location: document.getElementById('contactLocation').innerHTML,
+                    phone: document.getElementById('contactPhone').innerHTML,
+                    email: document.getElementById('contactEmail').innerHTML,
+                    instagram: document.getElementById('socialInstagram').innerHTML,
+                    facebook: document.getElementById('socialFacebook').innerHTML,
+                    linkedin: document.getElementById('socialLinkedin').innerHTML,
+                    web: document.getElementById('socialWeb').innerHTML
+                };
+
+                // Kumpulkan Data Section
+                const experienceData = getSectionData('experienceContainer');
+                const skillsData = getSectionData('skillsContainer');
+                const organizationData = getSectionData('organizationContainer');
+                const educationData = getSectionData('educationContainer');
+
+                const fullPortfolioData = {
+                    profile: profileData,
+                    experience: experienceData,
+                    skills: skillsData,
+                    organization: organizationData,
+                    education: educationData,
+                    lastUpdated: new Date().toISOString()
+                };
+
+                // Simpan ke node 'portofolio_data'
+                await set(ref(db, 'portofolio_data'), fullPortfolioData);
+                updateStatus('connected', 'Portofolio Berhasil Disimpan ke Firebase!');
+                alert('Success! Data portofolio Anda telah tersimpan dengan aman di Firebase Realtime Database.');
+            } catch (err) {
+                console.error('Save Error:', err);
+                updateStatus('error', 'Gagal menyimpan: ' + err.message);
+                alert('Gagal menyimpan ke Firebase!
+' + err.message + '
+
+Pastikan Realtime Database Security Rules diubah ke mode Test (read/write = true).');
+            }
+        };
+
+        function getSectionData(containerId) {
+            const container = document.getElementById(containerId);
+            const cards = container.querySelectorAll('.card-horizontal');
+            const items = [];
+
+            cards.forEach(card => {
+                items.push({
+                    img: card.querySelector('.photo-box-top img')?.src || '',
+                    title: card.querySelector('.item-title')?.innerHTML || '',
+                    subtitle: card.querySelector('.item-subtitle')?.innerHTML || '',
+                    date: card.querySelector('.date-badge')?.innerHTML || '',
+                    desc: card.querySelector('.item-desc')?.innerHTML || ''
+                });
+            });
+
+            return items;
+        }
+
+        function populateDataFromFirebase(data) {
+            if (data.profile) {
+                if (data.profile.img) document.getElementById('profileImg').src = data.profile.img;
+                if (data.profile.name) document.getElementById('profileName').innerHTML = data.profile.name;
+                if (data.profile.title) document.getElementById('profileTitle').innerHTML = data.profile.title;
+                if (data.profile.bio) document.getElementById('profileBio').innerHTML = data.profile.bio;
+                if (data.profile.location) document.getElementById('contactLocation').innerHTML = data.profile.location;
+                if (data.profile.phone) document.getElementById('contactPhone').innerHTML = data.profile.phone;
+                if (data.profile.email) document.getElementById('contactEmail').innerHTML = data.profile.email;
+                if (data.profile.instagram) document.getElementById('socialInstagram').innerHTML = data.profile.instagram;
+                if (data.profile.facebook) document.getElementById('socialFacebook').innerHTML = data.profile.facebook;
+                if (data.profile.linkedin) document.getElementById('socialLinkedin').innerHTML = data.profile.linkedin;
+                if (data.profile.web) document.getElementById('socialWeb').innerHTML = data.profile.web;
+            }
+
+            if (data.experience && Array.isArray(data.experience) && data.experience.length > 0) {
+                renderSectionCards('experienceContainer', data.experience);
+            }
+            if (data.skills && Array.isArray(data.skills) && data.skills.length > 0) {
+                renderSectionCards('skillsContainer', data.skills);
+            }
+            if (data.organization && Array.isArray(data.organization) && data.organization.length > 0) {
+                renderSectionCards('organizationContainer', data.organization);
+            }
+            if (data.education && Array.isArray(data.education) && data.education.length > 0) {
+                renderSectionCards('educationContainer', data.education);
+            }
+        }
+
+        function renderSectionCards(containerId, items) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = ''; // bersihkan dummy cards
+            items.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card-horizontal';
+                card.innerHTML = `
+                    <button class="btn-delete-item" onclick="this.closest('.card-horizontal').remove()"><i class="fa-solid fa-trash"></i> Hapus</button>
+                    <div class="photo-box-top">
+                        <img src="${item.img || 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=600&q=80'}" alt="Foto Item">
+                        <div class="photo-slide-hint">
+                            <span>Geser slide</span> <i class="fa-solid fa-arrow-right-long"></i>
+                        </div>
+                        <label class="photo-upload-overlay">
+                            <i class="fa-solid fa-camera"></i> Ubah Foto
+                            <input type="file" accept="image/*" onchange="previewImage(this)" style="display: none;">
+                        </label>
+                    </div>
+                    <div class="item-title" contenteditable="true">${item.title}</div>
+                    <div class="item-subtitle" contenteditable="true">${item.subtitle}</div>
+                    <span class="date-badge" contenteditable="true">${item.date}</span>
+                    <div class="item-desc" contenteditable="true">${item.desc}</div>
+                    <div class="card-footer-hint">
+                        <span><i class="fa-solid fa-circle-info"></i> Informasi</span>
+                        <span>Geser selanjutnya <i class="fa-solid fa-arrow-right-long"></i></span>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+    </script>
+
+    <!-- Logic UI JavaScript -->
+    <script>
+        // --- MOBILE NAV MENU TOGGLE ---
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            const icon = menuToggle.querySelector('i');
+            if (navLinks.classList.contains('active')) {
+                icon.className = 'fa-solid fa-xmark';
+            } else {
+                icon.className = 'fa-solid fa-bars';
+            }
+        });
+
+        function closeMobileMenu() {
+            if (window.innerWidth <= 768) {
+                navLinks.classList.remove('active');
+                menuToggle.querySelector('i').className = 'fa-solid fa-bars';
+            }
+        }
+
+        // --- MANAJEMEN AUTO-SLIDE SMART TOUCH & DELAY 15 DETIK ---
+        const sectionContainers = ['experienceContainer', 'skillsContainer', 'organizationContainer', 'educationContainer'];
+        const autoScrollIntervals = {};
+        const pauseTimeouts = {};
+
+        const PAUSE_DURATION = 15000;
+        const SLIDE_INTERVAL = 15000;
+
+        function getScrollWidth() {
+            return window.innerWidth <= 768 ? window.innerWidth * 0.82 : 350;
+        }
+
+        function slideNext(containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
+            const scrollAmount = getScrollWidth();
+            const maxScrollLeft = container.scrollWidth - container.clientWidth;
+
+            if (container.scrollLeft >= maxScrollLeft - 15) {
+                container.scrollTo({ left: 0, behavior: 'smooth' });
+            } else {
+                container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            }
+        }
+
+        function startAutoScroll(containerId) {
+            stopAutoScroll(containerId);
+            autoScrollIntervals[containerId] = setInterval(() => {
+                slideNext(containerId);
+            }, SLIDE_INTERVAL);
+        }
+
+        function stopAutoScroll(containerId) {
+            if (autoScrollIntervals[containerId]) {
+                clearInterval(autoScrollIntervals[containerId]);
+                autoScrollIntervals[containerId] = null;
+            }
+        }
+
+        function pauseAndResetTimer(containerId) {
+            stopAutoScroll(containerId);
+
+            if (pauseTimeouts[containerId]) {
+                clearTimeout(pauseTimeouts[containerId]);
+            }
+
+            pauseTimeouts[containerId] = setTimeout(() => {
+                slideNext(containerId);
+                startAutoScroll(containerId);
+            }, PAUSE_DURATION);
+        }
+
+        sectionContainers.forEach(containerId => {
+            const container = document.getElementById(containerId);
+            if (container) {
+                container.addEventListener('touchstart', () => pauseAndResetTimer(containerId), { passive: true });
+                container.addEventListener('mousedown', () => pauseAndResetTimer(containerId));
+                container.addEventListener('wheel', () => pauseAndResetTimer(containerId), { passive: true });
+
+                startAutoScroll(containerId);
+            }
+        });
+
+        function scrollSection(containerId, direction) {
+            const container = document.getElementById(containerId);
+            const scrollAmount = getScrollWidth();
+            container.scrollBy({
+                left: direction * scrollAmount,
+                behavior: 'smooth'
+            });
+            pauseAndResetTimer(containerId);
+        }
+
+        function updateProfileImage(input) {
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('profileImg').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function previewImage(input) {
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = input.closest('.photo-box-top').querySelector('img');
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function createHorizontalCard(defaultTitle, defaultSubtitle, defaultDate, defaultDesc) {
+            const card = document.createElement('div');
+            card.className = 'card-horizontal';
+            card.innerHTML = `
+                <button class="btn-delete-item" onclick="this.closest('.card-horizontal').remove()"><i class="fa-solid fa-trash"></i> Hapus</button>
+                <div class="photo-box-top">
+                    <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=600&q=80" alt="Foto Item">
+                    <div class="photo-slide-hint">
+                        <span>Geser slide</span> <i class="fa-solid fa-arrow-right-long"></i>
+                    </div>
+                    <label class="photo-upload-overlay">
+                        <i class="fa-solid fa-camera"></i> Ubah Foto
+                        <input type="file" accept="image/*" onchange="previewImage(this)" style="display: none;">
+                    </label>
+                </div>
+                <div class="item-title" contenteditable="true">${defaultTitle}</div>
+                <div class="item-subtitle" contenteditable="true">${defaultSubtitle}</div>
+                <span class="date-badge" contenteditable="true">${defaultDate}</span>
+                <div class="item-desc" contenteditable="true">${defaultDesc}</div>
+                <div class="card-footer-hint">
+                    <span><i class="fa-solid fa-circle-info"></i> Informasi</span>
+                    <span>Geser selanjutnya <i class="fa-solid fa-arrow-right-long"></i></span>
+                </div>
+            `;
+            return card;
+        }
+
+        function appendAndScroll(containerId, cardElement) {
+            const container = document.getElementById(containerId);
+            container.appendChild(cardElement);
+            container.scrollTo({
+                left: container.scrollWidth,
+                behavior: 'smooth'
+            });
+            pauseAndResetTimer(containerId);
+        }
+
+        function addExperience() {
+            appendAndScroll('experienceContainer', createHorizontalCard('[Posisi Jabatan Baru]', 'Nama Perusahaan', 'Tahun - Tahun', 'Tuliskan deskripsi ringkas mengenai tanggung jawab dan pencapaian Anda.'));
+        }
+
+        function addSkill() {
+            appendAndScroll('skillsContainer', createHorizontalCard('[Keahlian Baru]', 'Spesialisasi', 'Tingkat Keahlian', 'Tuliskan deskripsi penguasaan dan penerapannya di lapangan.'));
+        }
+
+        function addOrganization() {
+            appendAndScroll('organizationContainer', createHorizontalCard('[Jabatan Baru]', 'Nama Organisasi', 'Tahun - Tahun', 'Tuliskan deskripsi kontribusi dan kegiatan organisasi Anda.'));
+        }
+
+        function addEducation() {
+            appendAndScroll('educationContainer', createHorizontalCard('[Pendidikan / Sertifikasi Baru]', 'Nama Lembaga', 'Tahun Lulus', 'Tuliskan kualifikasi atau gelar profesional yang diraih.'));
+        }
+    </script>
+</body>
+</html>
