@@ -667,4 +667,920 @@
             border-top: 1px solid rgba(197, 160, 89, 0.25);
             font-size: 0.74rem;
             font-weight: 700;
-            color: var(--maroon
+            color: var(--maroon-primary);
+        }
+
+        .card-footer-hint span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .card-footer-hint i {
+            color: var(--gold-primary);
+            animation: arrowPulse 1.8s infinite;
+        }
+
+        /* MEDIA QUERIES MOBILE */
+        @media screen and (max-width: 768px) {
+            .container { padding: 0 16px; }
+            .nav-inner { height: 64px; }
+            .menu-toggle { display: block; }
+
+            .nav-links {
+                position: absolute;
+                top: 64px;
+                left: 0;
+                right: 0;
+                background: rgba(11, 19, 43, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 20px;
+                gap: 16px;
+                border-bottom: 1px solid var(--border-gold);
+                display: none;
+            }
+
+            .nav-links.active { display: flex; }
+
+            .hero { padding: 20px 0 20px; }
+            .hero-card { padding: 24px 18px; text-align: center; }
+            .hero-grid { grid-template-columns: 1fr; gap: 20px; }
+
+            .profile-photo-box {
+                width: 140px;
+                height: 140px;
+            }
+
+            .hero-title { font-size: 1.85rem; }
+            .hero-subtitle { font-size: 1.05rem; }
+            .hero-bio { font-size: 0.9rem; text-align: justify; }
+
+            .contact-info-group, .social-group {
+                justify-content: center;
+            }
+
+            .status-badge { font-size: 0.76rem; }
+            .section-header { padding: 10px 14px; }
+            .section-title { font-size: 1.15rem; }
+
+            .cards-scroll-container {
+                padding: 10px 45px 20px 0px;
+                gap: 14px;
+            }
+
+            .card-horizontal {
+                flex: 0 0 82vw;
+                padding: 16px;
+            }
+
+            .photo-box-top { height: 145px; }
+
+            .bottom-action-container {
+                flex-direction: column;
+                gap: 10px;
+                padding: 16px;
+            }
+
+            .bottom-action-container .btn-primary,
+            .bottom-action-container .btn-save-db {
+                width: 100%;
+            }
+        }
+
+        @media screen and (min-width: 769px) {
+            .menu-toggle { display: none; }
+            .nav-links { display: flex !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Overlay Loader Mencegah Teks Default Flicker saat Pertama Buka -->
+    <div id="appLoader">
+        <div class="spinner"></div>
+        <p style="font-weight: 600; font-size: 0.95rem; color: #C5A059;">Memuat Portofolio Real-Time...</p>
+    </div>
+
+    <div class="body-bg-overlay"></div>
+
+    <!-- Status Bar Firebase Realtime Database -->
+    <div class="db-status-bar">
+        <div class="container">
+            <span class="db-status-badge" id="dbStatusBadge">
+                <span class="indicator"></span>
+                <span id="dbStatusText">Menghubungkan ke Firebase Realtime Database...</span>
+            </span>
+        </div>
+    </div>
+
+    <!-- Header Navigasi -->
+    <header>
+        <div class="container nav-inner">
+            <div class="logo">Portofolio<span>.Eksekutif</span></div>
+            
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle Menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#about" onclick="closeMobileMenu()">Tentang Saya</a></li>
+                <li><a href="#experience" onclick="closeMobileMenu()">Pengalaman</a></li>
+                <li><a href="#skills" onclick="closeMobileMenu()">Keahlian</a></li>
+                <li><a href="#organization" onclick="closeMobileMenu()">Organisasi</a></li>
+                <li><a href="#education" onclick="closeMobileMenu()">Pendidikan</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Hero / Profil Utama -->
+        <section class="hero" id="about">
+            <div class="hero-card">
+                <div class="hero-grid">
+                    <div class="profile-photo-box">
+                        <img id="profileImg" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80" alt="Foto Profil Anda">
+                        <label class="profile-upload-overlay">
+                            <i class="fa-solid fa-camera fa-lg"></i>
+                            <span>Ubah Foto</span>
+                            <input type="file" accept="image/*" onchange="updateProfileImageCompressed(this)" style="display: none;">
+                        </label>
+                    </div>
+
+                    <div>
+                        <div class="status-badge">
+                            <span class="status-dot"></span>
+                            Terbuka untuk Peluang Kerja & Konsultasi
+                        </div>
+                        <h1 class="hero-title" id="profileName" contenteditable="true">...</h1>
+                        <p class="hero-subtitle" id="profileTitle" contenteditable="true">...</p>
+                        
+                        <p class="hero-bio" id="profileBio" contenteditable="true">...</p>
+
+                        <!-- Kontak Utama dengan Tautan Aktif -->
+                        <div class="contact-info-group">
+                            <div class="contact-pill">
+                                <i class="fa-solid fa-location-dot" style="color: var(--gold-primary);"></i> 
+                                <span id="contactLocation" contenteditable="true">...</span>
+                            </div>
+                            <div class="contact-pill">
+                                <a id="linkPhone" href="#" target="_blank" title="Buka WhatsApp Langsung">
+                                    <i class="fa-brands fa-whatsapp"></i>
+                                </a>
+                                <span id="contactPhone" contenteditable="true" onblur="syncSocialLinks()">...</span>
+                            </div>
+                            <div class="contact-pill">
+                                <a id="linkEmail" href="#" target="_blank" title="Kirim Email Langsung">
+                                    <i class="fa-solid fa-envelope"></i>
+                                </a>
+                                <span id="contactEmail" contenteditable="true" onblur="syncSocialLinks()">...</span>
+                            </div>
+                        </div>
+
+                        <!-- Media Sosial dengan Tautan Aktif -->
+                        <div class="social-group">
+                            <span style="font-size: 0.8rem; font-weight: 700; color: var(--gold-primary); margin-right: 4px;">Sosial:</span>
+                            
+                            <div class="social-link-pill">
+                                <a id="linkInstagram" href="#" target="_blank" title="Buka Profil Instagram">
+                                    <i class="fa-brands fa-instagram"></i>
+                                </a>
+                                <span id="socialInstagram" contenteditable="true" onblur="syncSocialLinks()">...</span>
+                            </div>
+
+                            <div class="social-link-pill">
+                                <a id="linkTiktok" href="#" target="_blank" title="Buka Profil TikTok">
+                                    <i class="fa-brands fa-tiktok"></i>
+                                </a>
+                                <span id="socialTiktok" contenteditable="true" onblur="syncSocialLinks()">...</span>
+                            </div>
+
+                            <div class="social-link-pill">
+                                <a id="linkFacebook" href="#" target="_blank" title="Buka Profil Facebook">
+                                    <i class="fa-brands fa-facebook"></i>
+                                </a>
+                                <span id="socialFacebook" contenteditable="true" onblur="syncSocialLinks()">...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 1. PENGALAMAN KERJA -->
+        <section class="section" id="experience">
+            <div class="section-header">
+                <div class="section-title-group">
+                    <i class="fa-solid fa-briefcase section-icon"></i>
+                    <h2 class="section-title">Pengalaman Kerja</h2>
+                </div>
+                <div class="section-controls">
+                    <button class="btn-nav-scroll" onclick="scrollSection('experienceContainer', -1)"><i class="fa-solid fa-chevron-left"></i></button>
+                    <button class="btn-nav-scroll" onclick="scrollSection('experienceContainer', 1)"><i class="fa-solid fa-chevron-right"></i></button>
+                    <button class="btn-add" onclick="addExperience()"><i class="fa-solid fa-plus"></i> Tambah</button>
+                </div>
+            </div>
+
+            <div class="cards-scroll-container" id="experienceContainer"></div>
+        </section>
+
+        <!-- 2. KEAHLIAN & SPESIALISASI -->
+        <section class="section" id="skills">
+            <div class="section-header">
+                <div class="section-title-group">
+                    <i class="fa-solid fa-layer-group section-icon"></i>
+                    <h2 class="section-title">Keahlian & Spesialisasi</h2>
+                </div>
+                <div class="section-controls">
+                    <button class="btn-nav-scroll" onclick="scrollSection('skillsContainer', -1)"><i class="fa-solid fa-chevron-left"></i></button>
+                    <button class="btn-nav-scroll" onclick="scrollSection('skillsContainer', 1)"><i class="fa-solid fa-chevron-right"></i></button>
+                    <button class="btn-add" onclick="addSkill()"><i class="fa-solid fa-plus"></i> Tambah</button>
+                </div>
+            </div>
+
+            <div class="cards-scroll-container" id="skillsContainer"></div>
+        </section>
+
+        <!-- 3. RIWAYAT ORGANISASI -->
+        <section class="section" id="organization">
+            <div class="section-header">
+                <div class="section-title-group">
+                    <i class="fa-solid fa-users section-icon"></i>
+                    <h2 class="section-title">Riwayat Organisasi</h2>
+                </div>
+                <div class="section-controls">
+                    <button class="btn-nav-scroll" onclick="scrollSection('organizationContainer', -1)"><i class="fa-solid fa-chevron-left"></i></button>
+                    <button class="btn-nav-scroll" onclick="scrollSection('organizationContainer', 1)"><i class="fa-solid fa-chevron-right"></i></button>
+                    <button class="btn-add" onclick="addOrganization()"><i class="fa-solid fa-plus"></i> Tambah</button>
+                </div>
+            </div>
+
+            <div class="cards-scroll-container" id="organizationContainer"></div>
+        </section>
+
+        <!-- 4. PENDIDIKAN & SERTIFIKASI -->
+        <section class="section" id="education">
+            <div class="section-header">
+                <div class="section-title-group">
+                    <i class="fa-solid fa-graduation-cap section-icon"></i>
+                    <h2 class="section-title">Pendidikan & Sertifikasi</h2>
+                </div>
+                <div class="section-controls">
+                    <button class="btn-nav-scroll" onclick="scrollSection('educationContainer', -1)"><i class="fa-solid fa-chevron-left"></i></button>
+                    <button class="btn-nav-scroll" onclick="scrollSection('educationContainer', 1)"><i class="fa-solid fa-chevron-right"></i></button>
+                    <button class="btn-add" onclick="addEducation()"><i class="fa-solid fa-plus"></i> Tambah</button>
+                </div>
+            </div>
+
+            <div class="cards-scroll-container" id="educationContainer"></div>
+        </section>
+
+        <!-- TOMBOL AKSI: SIMPAN DATA & UNDUH CV WORD ATS -->
+        <div class="bottom-action-container">
+            <button class="btn-save-db" onclick="saveAllData()">
+                <i class="fa-solid fa-floppy-disk"></i> Simpan Data (Permanen Multi-Device)
+            </button>
+            <button onclick="downloadCVWord()" class="btn-primary">
+                <i class="fa-solid fa-file-word"></i> Unduh CV (Word ATS)
+            </button>
+        </div>
+
+    </main>
+
+    <!-- FIREBASE REALTIME DATABASE SYNC SCRIPT -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        const firebaseConfig = {
+            projectId: "portofolio-8d90b",
+            databaseURL: "https://portofolio-8d90b-default-rtdb.asia-southeast1.firebasedatabase.app"
+        };
+
+        let app, db;
+        try {
+            app = initializeApp(firebaseConfig);
+            db = getDatabase(app);
+            updateStatus('connected', 'Terhubung ke Firebase Cloud Database');
+        } catch (e) {
+            console.error('Firebase Init Error:', e);
+            updateStatus('error', 'Gagal Koneksi Firebase');
+            hideAppLoader();
+        }
+
+        function updateStatus(type, text) {
+            const badge = document.getElementById('dbStatusBadge');
+            const statusText = document.getElementById('dbStatusText');
+            if (badge && statusText) {
+                badge.className = 'db-status-badge ' + type;
+                statusText.innerText = text;
+            }
+        }
+
+        function hideAppLoader() {
+            const loader = document.getElementById('appLoader');
+            if (loader) loader.classList.add('hidden');
+        }
+
+        // Template awal jika database masih benar-benar kosong (First Run)
+        const defaultFallbackData = {
+            profile: {
+                img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80",
+                name: "[Nama Lengkap Anda]",
+                title: "[Spesialisasi / Profesi Utama Anda]",
+                bio: "Praktisi profesional berdedikasi tinggi dengan pengalaman strategis dalam manajemen operasional dan tata kelola perusahaan. Berfokus pada inovasi, efisiensi kerja tim, serta memberikan dampak positif yang berkelanjutan bagi pertumbuhan organisasi.",
+                location: "Jakarta, Indonesia",
+                phone: "+62 812-3456-7890",
+                email: "emailanda@gmail.com",
+                instagram: "@username",
+                tiktok: "@username",
+                facebook: "Facebook"
+            },
+            experience: [{
+                img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=600&q=80",
+                title: "[Posisi Jabatan 1]",
+                subtitle: "PT Perusahaan Utama",
+                date: "2023 - Sekarang",
+                desc: "<ul><li>Mengendalikan tata kelola operasional perusahaan.</li><li>Meningkatkan efisiensi kerja tim sebesar 30%.</li></ul>"
+            }],
+            skills: [{
+                img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80",
+                title: "Perencanaan Strategis",
+                subtitle: "Spesialisasi Manajemen",
+                date: "Tingkat Mahir",
+                desc: "Penguasaan penuh dalam menyusun alur kerja bisnis, pemetaan risiko, dan analisis tren pasar."
+            }],
+            organization: [{
+                img: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80",
+                title: "Ketua Divisi Eksternal",
+                subtitle: "Asosiasi Profesional Indonesia",
+                date: "2022 - 2023",
+                desc: "Memimpin forum komunikasi eksternal dan memfasilitasi kerjasama strategis antar instansi."
+            }],
+            education: [{
+                img: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=600&q=80",
+                title: "Sarjana (S1) - [Nama Jurusan]",
+                subtitle: "Universitas Negeri Terkemuka",
+                date: "Lulusan Terbaik",
+                desc: "Fokus pada studi manajemen operasional. Lulus predikat Cum Laude."
+            }]
+        };
+
+        // Sinkronisasi Realtime Antar Perangkat
+        if (db) {
+            const portfolioRef = ref(db, 'portofolio_data');
+            onValue(portfolioRef, (snapshot) => {
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    window.populateDataFromPayload(data);
+                    try { localStorage.setItem('local_portfolio_backup', JSON.stringify(data)); } catch(e){}
+                    updateStatus('connected', 'Data Terbaru Disinkronkan Dari Cloud');
+                } else {
+                    // Coba muat dari cache lokal atau fallback default jika DB masih kosong
+                    const cached = localStorage.getItem('local_portfolio_backup');
+                    if (cached) {
+                        window.populateDataFromPayload(JSON.parse(cached));
+                    } else {
+                        window.populateDataFromPayload(defaultFallbackData);
+                    }
+                    updateStatus('connected', 'Database Siap (Tekan "Simpan Data" untuk Simpan)');
+                }
+                hideAppLoader();
+            }, (error) => {
+                console.error("Firebase Read Error:", error);
+                updateStatus('error', 'Gagal Memuat Cloud, Menggunakan Cache Lokal');
+                const cached = localStorage.getItem('local_portfolio_backup');
+                if (cached) {
+                    window.populateDataFromPayload(JSON.parse(cached));
+                } else {
+                    window.populateDataFromPayload(defaultFallbackData);
+                }
+                hideAppLoader();
+            });
+        }
+
+        // Timeout Safety Loader
+        setTimeout(hideAppLoader, 3000);
+
+        // Simpan Data Permanen Ke Cloud Database
+        window.saveAllData = async function() {
+            syncSocialLinks();
+            updateStatus('saving', 'Menyimpan data ke Cloud Database...');
+
+            const fullPortfolioData = {
+                profile: {
+                    img: document.getElementById('profileImg').src,
+                    name: document.getElementById('profileName').innerHTML,
+                    title: document.getElementById('profileTitle').innerHTML,
+                    bio: document.getElementById('profileBio').innerHTML,
+                    location: document.getElementById('contactLocation').innerHTML,
+                    phone: document.getElementById('contactPhone').innerHTML,
+                    email: document.getElementById('contactEmail').innerHTML,
+                    instagram: document.getElementById('socialInstagram').innerHTML,
+                    tiktok: document.getElementById('socialTiktok').innerHTML,
+                    facebook: document.getElementById('socialFacebook').innerHTML
+                },
+                experience: getSectionData('experienceContainer'),
+                skills: getSectionData('skillsContainer'),
+                organization: getSectionData('organizationContainer'),
+                education: getSectionData('educationContainer'),
+                lastUpdated: new Date().toISOString()
+            };
+
+            // Simpan ke Local Storage
+            try {
+                localStorage.setItem('local_portfolio_backup', JSON.stringify(fullPortfolioData));
+            } catch(e) {}
+
+            // Simpan ke Realtime Cloud Database
+            if (db) {
+                try {
+                    await set(ref(db, 'portofolio_data'), fullPortfolioData);
+                    updateStatus('connected', 'Berhasil Disimpan! Perubahan Langsung Muncul di Perangkat Lain');
+                    alert('Sukses! Perubahan telah tersimpan permanen. Saat dibuka di HP/perangkat lain, data ini akan langsung tampil.');
+                } catch (err) {
+                    console.error('Firebase Save Error:', err);
+                    updateStatus('error', 'Gagal Simpan Cloud: ' + err.message);
+                    alert('Gagal menyimpan ke Firebase Cloud. Pastikan aturan Security Rules di console Firebase diset true.');
+                }
+            } else {
+                alert('Database belum terhubung secara penuh.');
+            }
+        };
+
+        function getSectionData(containerId) {
+            const container = document.getElementById(containerId);
+            if(!container) return [];
+            const cards = container.querySelectorAll('.card-horizontal');
+            const items = [];
+
+            cards.forEach(card => {
+                items.push({
+                    img: card.querySelector('.photo-box-top img')?.src || '',
+                    title: card.querySelector('.item-title')?.innerHTML || '',
+                    subtitle: card.querySelector('.item-subtitle')?.innerHTML || '',
+                    date: card.querySelector('.date-badge')?.innerHTML || '',
+                    desc: card.querySelector('.item-desc')?.innerHTML || ''
+                });
+            });
+
+            return items;
+        }
+
+        window.populateDataFromPayload = function(data) {
+            if (!data) return;
+            if (data.profile) {
+                if (data.profile.img) document.getElementById('profileImg').src = data.profile.img;
+                if (data.profile.name) document.getElementById('profileName').innerHTML = data.profile.name;
+                if (data.profile.title) document.getElementById('profileTitle').innerHTML = data.profile.title;
+                if (data.profile.bio) document.getElementById('profileBio').innerHTML = data.profile.bio;
+                if (data.profile.location) document.getElementById('contactLocation').innerHTML = data.profile.location;
+                if (data.profile.phone) document.getElementById('contactPhone').innerHTML = data.profile.phone;
+                if (data.profile.email) document.getElementById('contactEmail').innerHTML = data.profile.email;
+                if (data.profile.instagram) document.getElementById('socialInstagram').innerHTML = data.profile.instagram;
+                if (data.profile.tiktok) document.getElementById('socialTiktok').innerHTML = data.profile.tiktok;
+                if (data.profile.facebook) document.getElementById('socialFacebook').innerHTML = data.profile.facebook;
+                
+                syncSocialLinks();
+            }
+
+            if (data.experience && Array.isArray(data.experience)) renderSectionCards('experienceContainer', data.experience);
+            if (data.skills && Array.isArray(data.skills)) renderSectionCards('skillsContainer', data.skills);
+            if (data.organization && Array.isArray(data.organization)) renderSectionCards('organizationContainer', data.organization);
+            if (data.education && Array.isArray(data.education)) renderSectionCards('educationContainer', data.education);
+        };
+
+        function renderSectionCards(containerId, items) {
+            const container = document.getElementById(containerId);
+            if(!container) return;
+            container.innerHTML = ''; 
+            items.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card-horizontal';
+                card.innerHTML = `
+                    <button class="btn-delete-item" onclick="this.closest('.card-horizontal').remove()"><i class="fa-solid fa-trash"></i> Hapus</button>
+                    <div class="photo-box-top">
+                        <img src="${item.img || 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=600&q=80'}" alt="Foto Item">
+                        <div class="photo-slide-hint">
+                            <span>Geser slide</span> <i class="fa-solid fa-arrow-right-long"></i>
+                        </div>
+                        <label class="photo-upload-overlay">
+                            <i class="fa-solid fa-camera"></i> Ubah Foto
+                            <input type="file" accept="image/*" onchange="previewImageCompressed(this)" style="display: none;">
+                        </label>
+                    </div>
+                    <div class="item-title" contenteditable="true">${item.title}</div>
+                    <div class="item-subtitle" contenteditable="true">${item.subtitle}</div>
+                    <span class="date-badge" contenteditable="true">${item.date}</span>
+                    <div class="item-desc" contenteditable="true">${item.desc}</div>
+                    <div class="card-footer-hint">
+                        <span><i class="fa-solid fa-circle-info"></i> Informasi</span>
+                        <span>Geser selanjutnya <i class="fa-solid fa-arrow-right-long"></i></span>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+    </script>
+
+    <!-- LOGIK PEMROSESAN GAMBAR, MEDSOS, DAN EKSPOR WORD ATS COMPATIBLE UNIVERSAL -->
+    <script>
+        // Kompresi Foto Otomatis
+        function compressAndResizeImage(file, callback) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const MAX_WIDTH = 400;
+                    const MAX_HEIGHT = 400;
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > height) {
+                        if (width > MAX_WIDTH) {
+                            height *= MAX_WIDTH / width;
+                            width = MAX_WIDTH;
+                        }
+                    } else {
+                        if (height > MAX_HEIGHT) {
+                            width *= MAX_HEIGHT / height;
+                            height = MAX_HEIGHT;
+                        }
+                    }
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+                    const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
+                    callback(compressedDataUrl);
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function updateProfileImageCompressed(input) {
+            if (input.files && input.files[0]) {
+                compressAndResizeImage(input.files[0], function(compressedUrl) {
+                    document.getElementById('profileImg').src = compressedUrl;
+                });
+            }
+        }
+
+        function previewImageCompressed(input) {
+            if (input.files && input.files[0]) {
+                compressAndResizeImage(input.files[0], function(compressedUrl) {
+                    const img = input.closest('.photo-box-top').querySelector('img');
+                    if (img) img.src = compressedUrl;
+                });
+            }
+        }
+
+        // Sinkronisasi Link Sosial Media
+        function syncSocialLinks() {
+            const phoneTxt = document.getElementById('contactPhone')?.innerText.trim() || '';
+            let waFormatted = phoneTxt.replace(/[^0-9]/g, '');
+            if (waFormatted.startsWith('0')) waFormatted = '62' + waFormatted.slice(1);
+            const linkPhone = document.getElementById('linkPhone');
+            if (linkPhone) linkPhone.href = waFormatted ? `https://wa.me/${waFormatted}` : '#';
+
+            const emailTxt = document.getElementById('contactEmail')?.innerText.trim() || '';
+            const linkEmail = document.getElementById('linkEmail');
+            if (linkEmail) linkEmail.href = emailTxt ? `mailto:${emailTxt}` : '#';
+
+            const igTxt = document.getElementById('socialInstagram')?.innerText.trim().replace('@', '') || '';
+            const linkInstagram = document.getElementById('linkInstagram');
+            if (linkInstagram) linkInstagram.href = igTxt ? `https://instagram.com/${igTxt}` : '#';
+
+            const ttTxt = document.getElementById('socialTiktok')?.innerText.trim().replace('@', '') || '';
+            const linkTiktok = document.getElementById('linkTiktok');
+            if (linkTiktok) linkTiktok.href = ttTxt ? `https://tiktok.com/@${ttTxt}` : '#';
+
+            const fbTxt = document.getElementById('socialFacebook')?.innerText.trim() || '';
+            const linkFacebook = document.getElementById('linkFacebook');
+            if (linkFacebook) linkFacebook.href = fbTxt ? `https://facebook.com/${fbTxt}` : '#';
+        }
+
+        // Ekstraksi Data Kartu
+        function extractSectionItems(containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) return [];
+            const cards = container.querySelectorAll('.card-horizontal');
+            const items = [];
+
+            cards.forEach(card => {
+                const itemTitle = card.querySelector('.item-title')?.innerText.trim() || '';
+                const itemSubtitle = card.querySelector('.item-subtitle')?.innerText.trim() || '';
+                const dateBadge = card.querySelector('.date-badge')?.innerText.trim() || '';
+                const descEl = card.querySelector('.item-desc');
+
+                let descHtml = '';
+                if (descEl) {
+                    const lis = descEl.querySelectorAll('li');
+                    if (lis.length > 0) {
+                        descHtml = '<ul style="margin-top: 2pt; margin-bottom: 4pt; padding-left: 18pt;">' + 
+                            Array.from(lis).map(li => `<li style="margin-bottom: 2pt;">${li.innerText.trim()}</li>`).join('') + 
+                            '</ul>';
+                    } else {
+                        descHtml = `<p style="margin-top: 2pt; margin-bottom: 4pt; font-size: 10pt; color: #334155;">${descEl.innerText.trim()}</p>`;
+                    }
+                }
+
+                items.push({ itemTitle, itemSubtitle, dateBadge, descHtml });
+            });
+
+            return items;
+        }
+
+        function triggerFileDownload(blob, filename) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.target = '_blank';
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(() => {
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }, 300);
+        }
+
+        // GENERATOR DOWNLOAD CV ATS FORMAT WORD (.doc / MSO Compatible All Apps)
+        function downloadCVWord() {
+            syncSocialLinks();
+            const name = document.getElementById('profileName')?.innerText.trim() || 'Nama Lengkap';
+            const title = document.getElementById('profileTitle')?.innerText.trim() || '';
+            const bio = document.getElementById('profileBio')?.innerText.trim() || '';
+
+            const cleanText = (id) => document.getElementById(id)?.innerText.trim() || '';
+
+            const location = cleanText('contactLocation');
+            const phone = cleanText('contactPhone');
+            const email = cleanText('contactEmail');
+            const instagram = cleanText('socialInstagram');
+            const tiktok = cleanText('socialTiktok');
+            const facebook = cleanText('socialFacebook');
+
+            const contacts = [email, phone, location, instagram ? 'IG: ' + instagram : '', tiktok ? 'TikTok: ' + tiktok : '', facebook ? 'FB: ' + facebook : '']
+                .filter(c => c && c !== '...' && !c.includes('[Nama'))
+                .join(' | ');
+
+            const experiences = extractSectionItems('experienceContainer');
+            const skills = extractSectionItems('skillsContainer');
+            const organizations = extractSectionItems('organizationContainer');
+            const educations = extractSectionItems('educationContainer');
+
+            // Format Word standar MSO XML kompatibel untuk MS Word Mobile, WPS Office, LibreOffice, dll.
+            let wordContent = `
+            <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns:m='http://schemas.microsoft.com/office/2004/12/omml' xmlns='http://www.w3.org/TR/REC-html40'>
+            <head>
+                <meta charset="utf-8">
+                <!--[if gte mso 9]>
+                <xml>
+                <w:WordDocument>
+                    <w:View>Print</w:View>
+                    <w:Zoom>100</w:Zoom>
+                    <w:DoNotOptimizeForBrowser/>
+                </w:WordDocument>
+                </xml>
+                <![endif]-->
+                <title>CV ATS - ${name}</title>
+                <style>
+                    @page WordSection1 { size: 210mm 297mm; margin: 20mm 20mm 20mm 20mm; mso-header-margin: 35.4pt; mso-footer-margin: 35.4pt; mso-paper-source: 0; }
+                    div.WordSection1 { page: WordSection1; }
+                    body { font-family: 'Calibri', 'Arial', sans-serif; font-size: 10.5pt; line-height: 1.35; color: #1E293B; }
+                    .header-name { font-size: 20pt; font-weight: bold; color: #7A001E; text-align: center; text-transform: uppercase; margin-bottom: 2pt; }
+                    .header-title { font-size: 11pt; font-weight: bold; color: #C5A059; text-align: center; margin-bottom: 4pt; }
+                    .header-contact { font-size: 9.5pt; color: #475569; text-align: center; margin-bottom: 14pt; }
+                    .sec-title { font-size: 11pt; font-weight: bold; color: #7A001E; text-transform: uppercase; border-bottom: 1.5pt solid #7A001E; padding-bottom: 2pt; margin-top: 14pt; margin-bottom: 6pt; }
+                    .item-main { font-size: 10.5pt; font-weight: bold; color: #0F172A; }
+                    .item-sub { font-size: 10.5pt; font-weight: normal; color: #475569; }
+                    .item-date { font-size: 9.5pt; font-style: italic; color: #64748B; text-align: right; }
+                    ul { margin-top: 2pt; margin-bottom: 4pt; padding-left: 18pt; }
+                    li { margin-bottom: 2pt; }
+                </style>
+            </head>
+            <body>
+                <div class="WordSection1">
+                    <div class="header-name">${name}</div>
+                    <div class="header-title">${title}</div>
+                    <div class="header-contact">${contacts}</div>
+
+                    <div class="sec-title">PROFIL PROFESIONAL</div>
+                    <p style="margin-top: 4pt; margin-bottom: 10pt; font-size: 10pt; text-align: justify;">${bio}</p>
+            `;
+
+            if (experiences.length > 0) {
+                wordContent += `<div class="sec-title">PENGALAMAN KERJA</div>`;
+                experiences.forEach(exp => {
+                    wordContent += `
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 4pt; margin-bottom: 2pt;">
+                        <tr>
+                            <td align="left" style="vertical-align: top;"><span class="item-main">${exp.itemTitle}</span> ${exp.itemSubtitle ? '| <span class="item-sub">' + exp.itemSubtitle + '</span>' : ''}</td>
+                            <td align="right" style="vertical-align: top; width: 150pt;" class="item-date">${exp.dateBadge}</td>
+                        </tr>
+                    </table>
+                    ${exp.descHtml}
+                    `;
+                });
+            }
+
+            if (skills.length > 0) {
+                wordContent += `<div class="sec-title">KEAHLIAN & SPESIALISASI</div>`;
+                skills.forEach(skill => {
+                    wordContent += `
+                    <div style="margin-top: 4pt; margin-bottom: 2pt;">
+                        <span class="item-main">${skill.itemTitle}</span> ${skill.itemSubtitle ? '– <i>' + skill.itemSubtitle + '</i>' : ''} ${skill.dateBadge ? '<span class="item-date">(' + skill.dateBadge + ')</span>' : ''}
+                    </div>
+                    ${skill.descHtml}
+                    `;
+                });
+            }
+
+            if (organizations.length > 0) {
+                wordContent += `<div class="sec-title">RIWAYAT ORGANISASI</div>`;
+                organizations.forEach(org => {
+                    wordContent += `
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 4pt; margin-bottom: 2pt;">
+                        <tr>
+                            <td align="left" style="vertical-align: top;"><span class="item-main">${org.itemTitle}</span> ${org.itemSubtitle ? '| <span class="item-sub">' + org.itemSubtitle + '</span>' : ''}</td>
+                            <td align="right" style="vertical-align: top; width: 150pt;" class="item-date">${org.dateBadge}</td>
+                        </tr>
+                    </table>
+                    ${org.descHtml}
+                    `;
+                });
+            }
+
+            if (educations.length > 0) {
+                wordContent += `<div class="sec-title">PENDIDIKAN & SERTIFIKASI</div>`;
+                educations.forEach(edu => {
+                    wordContent += `
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 4pt; margin-bottom: 2pt;">
+                        <tr>
+                            <td align="left" style="vertical-align: top;"><span class="item-main">${edu.itemTitle}</span> ${edu.itemSubtitle ? '| <span class="item-sub">' + edu.itemSubtitle + '</span>' : ''}</td>
+                            <td align="right" style="vertical-align: top; width: 150pt;" class="item-date">${edu.dateBadge}</td>
+                        </tr>
+                    </table>
+                    ${edu.descHtml}
+                    `;
+                });
+            }
+
+            wordContent += `</div></body></html>`;
+
+            const blob = new Blob(['\ufeff' + wordContent], { type: 'application/msword;charset=utf-8' });
+            triggerFileDownload(blob, (name.replace(/[^a-zA-Z0-9]/g, '_') || 'CV_ATS') + '_Word.doc');
+        }
+
+        // Tampilan & Menu Mobile
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            const icon = menuToggle.querySelector('i');
+            if (navLinks.classList.contains('active')) {
+                icon.className = 'fa-solid fa-xmark';
+            } else {
+                icon.className = 'fa-solid fa-bars';
+            }
+        });
+
+        function closeMobileMenu() {
+            if (window.innerWidth <= 768) {
+                navLinks.classList.remove('active');
+                menuToggle.querySelector('i').className = 'fa-solid fa-bars';
+            }
+        }
+
+        const sectionContainers = ['experienceContainer', 'skillsContainer', 'organizationContainer', 'educationContainer'];
+        const autoScrollIntervals = {};
+        const pauseTimeouts = {};
+
+        const PAUSE_DURATION = 15000;
+        const SLIDE_INTERVAL = 15000;
+
+        function getScrollWidth() {
+            return window.innerWidth <= 768 ? window.innerWidth * 0.82 : 350;
+        }
+
+        function slideNext(containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
+            const scrollAmount = getScrollWidth();
+            const maxScrollLeft = container.scrollWidth - container.clientWidth;
+
+            if (container.scrollLeft >= maxScrollLeft - 15) {
+                container.scrollTo({ left: 0, behavior: 'smooth' });
+            } else {
+                container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            }
+        }
+
+        function startAutoScroll(containerId) {
+            stopAutoScroll(containerId);
+            autoScrollIntervals[containerId] = setInterval(() => {
+                slideNext(containerId);
+            }, SLIDE_INTERVAL);
+        }
+
+        function stopAutoScroll(containerId) {
+            if (autoScrollIntervals[containerId]) {
+                clearInterval(autoScrollIntervals[containerId]);
+                autoScrollIntervals[containerId] = null;
+            }
+        }
+
+        function pauseAndResetTimer(containerId) {
+            stopAutoScroll(containerId);
+
+            if (pauseTimeouts[containerId]) {
+                clearTimeout(pauseTimeouts[containerId]);
+            }
+
+            pauseTimeouts[containerId] = setTimeout(() => {
+                slideNext(containerId);
+                startAutoScroll(containerId);
+            }, PAUSE_DURATION);
+        }
+
+        sectionContainers.forEach(containerId => {
+            const container = document.getElementById(containerId);
+            if (container) {
+                container.addEventListener('touchstart', () => pauseAndResetTimer(containerId), { passive: true });
+                container.addEventListener('mousedown', () => pauseAndResetTimer(containerId));
+                container.addEventListener('wheel', () => pauseAndResetTimer(containerId), { passive: true });
+
+                startAutoScroll(containerId);
+            }
+        });
+
+        function scrollSection(containerId, direction) {
+            const container = document.getElementById(containerId);
+            const scrollAmount = getScrollWidth();
+            container.scrollBy({
+                left: direction * scrollAmount,
+                behavior: 'smooth'
+            });
+            pauseAndResetTimer(containerId);
+        }
+
+        function createHorizontalCard(defaultTitle, defaultSubtitle, defaultDate, defaultDesc) {
+            const card = document.createElement('div');
+            card.className = 'card-horizontal';
+            card.innerHTML = `
+                <button class="btn-delete-item" onclick="this.closest('.card-horizontal').remove()"><i class="fa-solid fa-trash"></i> Hapus</button>
+                <div class="photo-box-top">
+                    <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=600&q=80" alt="Foto Item">
+                    <div class="photo-slide-hint">
+                        <span>Geser slide</span> <i class="fa-solid fa-arrow-right-long"></i>
+                    </div>
+                    <label class="photo-upload-overlay">
+                        <i class="fa-solid fa-camera"></i> Ubah Foto
+                        <input type="file" accept="image/*" onchange="previewImageCompressed(this)" style="display: none;">
+                    </label>
+                </div>
+                <div class="item-title" contenteditable="true">${defaultTitle}</div>
+                <div class="item-subtitle" contenteditable="true">${defaultSubtitle}</div>
+                <span class="date-badge" contenteditable="true">${defaultDate}</span>
+                <div class="item-desc" contenteditable="true">${defaultDesc}</div>
+                <div class="card-footer-hint">
+                    <span><i class="fa-solid fa-circle-info"></i> Informasi</span>
+                    <span>Geser selanjutnya <i class="fa-solid fa-arrow-right-long"></i></span>
+                </div>
+            `;
+            return card;
+        }
+
+        function appendAndScroll(containerId, cardElement) {
+            const container = document.getElementById(containerId);
+            container.appendChild(cardElement);
+            container.scrollTo({
+                left: container.scrollWidth,
+                behavior: 'smooth'
+            });
+            pauseAndResetTimer(containerId);
+        }
+
+        function addExperience() {
+            appendAndScroll('experienceContainer', createHorizontalCard('[Posisi Jabatan Baru]', 'Nama Perusahaan', 'Tahun - Tahun', 'Tuliskan deskripsi ringkas mengenai tanggung jawab dan pencapaian Anda.'));
+        }
+
+        function addSkill() {
+            appendAndScroll('skillsContainer', createHorizontalCard('[Keahlian Baru]', 'Spesialisasi', 'Tingkat Keahlian', 'Tuliskan deskripsi penguasaan dan penerapannya di lapangan.'));
+        }
+
+        function addOrganization() {
+            appendAndScroll('organizationContainer', createHorizontalCard('[Jabatan Baru]', 'Nama Organisasi', 'Tahun - Tahun', 'Tuliskan deskripsi kontribusi dan kegiatan organisasi Anda.'));
+        }
+
+        function addEducation() {
+            appendAndScroll('educationContainer', createHorizontalCard('[Pendidikan / Sertifikasi Baru]', 'Nama Lembaga', 'Tahun Lulus', 'Tuliskan kualifikasi atau gelar profesional yang diraih.'));
+        }
+    </script>
+</body>
+</html>
