@@ -51,18 +51,18 @@
             overflow-x: hidden;
         }
 
-        /* Loading Screen untuk Mencegah Flicker Teks Default */
+        /* Fullscreen Initial Loader - Menutup rapat web sampai data Firebase lengkap */
         #appLoader {
             position: fixed;
             inset: 0;
             background: #0B132B;
-            z-index: 99999;
+            z-index: 999999;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             color: #FFFFFF;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
         }
         #appLoader.hidden {
             opacity: 0;
@@ -70,15 +70,29 @@
             pointer-events: none;
         }
         .spinner {
-            width: 48px;
-            height: 48px;
+            width: 54px;
+            height: 54px;
             border: 4px solid rgba(197, 160, 89, 0.2);
             border-top-color: var(--gold-primary);
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
+
+        .loader-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            color: var(--gold-primary);
+            font-weight: 700;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .loader-sub {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
 
         .body-bg-overlay {
             position: fixed;
@@ -756,10 +770,11 @@
 </head>
 <body>
 
-    <!-- Overlay Loader Mencegah Teks Default Flicker saat Pertama Buka -->
+    <!-- OVERLAY LOADER: Menutup layar sampai seluruh data Firebase/Lokal selesai dimuat -->
     <div id="appLoader">
         <div class="spinner"></div>
-        <p style="font-weight: 600; font-size: 0.95rem; color: #C5A059;">Memuat Portofolio Real-Time...</p>
+        <div class="loader-title">Memuat Portofolio...</div>
+        <p class="loader-sub">Menghubungkan & Menyelaraskan Data Realtime Database</p>
     </div>
 
     <div class="body-bg-overlay"></div>
@@ -769,7 +784,7 @@
         <div class="container">
             <span class="db-status-badge" id="dbStatusBadge">
                 <span class="indicator"></span>
-                <span id="dbStatusText">Menghubungkan ke Firebase Realtime Database...</span>
+                <span id="dbStatusText">Menghubungkan ke Cloud Database...</span>
             </span>
         </div>
     </div>
@@ -958,14 +973,16 @@
         };
 
         let app, db;
+        let isInitialLoad = true;
+
         try {
             app = initializeApp(firebaseConfig);
             db = getDatabase(app);
-            updateStatus('connected', 'Terhubung ke Firebase Cloud Database');
+            updateStatus('connected', 'Terhubung ke Firebase Cloud');
         } catch (e) {
             console.error('Firebase Init Error:', e);
             updateStatus('error', 'Gagal Koneksi Firebase');
-            hideAppLoader();
+            finishInitialLoading();
         }
 
         function updateStatus(type, text) {
@@ -977,18 +994,21 @@
             }
         }
 
-        function hideAppLoader() {
-            const loader = document.getElementById('appLoader');
-            if (loader) loader.classList.add('hidden');
+        function finishInitialLoading() {
+            if (isInitialLoad) {
+                const loader = document.getElementById('appLoader');
+                if (loader) loader.classList.add('hidden');
+                isInitialLoad = false;
+            }
         }
 
-        // Template awal jika database masih benar-benar kosong (First Run)
+        // Template Bawaan jika Database Firebase Masih Kosong
         const defaultFallbackData = {
             profile: {
                 img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80",
                 name: "[Nama Lengkap Anda]",
                 title: "[Spesialisasi / Profesi Utama Anda]",
-                bio: "Praktisi profesional berdedikasi tinggi dengan pengalaman strategis dalam manajemen operasional dan tata kelola perusahaan. Berfokus pada inovasi, efisiensi kerja tim, serta memberikan dampak positif yang berkelanjutan bagi pertumbuhan organisasi.",
+                bio: "Praktisi profesional berdedikasi tinggi dengan pengalaman strategis dalam manajemen operasional dan tata kelola perusahaan. Berfokus pada inovasi, efisiensi kerja tim, serta memberikan dampak positif yang berkelanjutan.",
                 location: "Jakarta, Indonesia",
                 phone: "+62 812-3456-7890",
                 email: "emailanda@gmail.com",
@@ -1026,7 +1046,7 @@
             }]
         };
 
-        // Sinkronisasi Realtime Antar Perangkat
+        // Realtime Listener
         if (db) {
             const portfolioRef = ref(db, 'portofolio_data');
             onValue(portfolioRef, (snapshot) => {
@@ -1034,38 +1054,41 @@
                     const data = snapshot.val();
                     window.populateDataFromPayload(data);
                     try { localStorage.setItem('local_portfolio_backup', JSON.stringify(data)); } catch(e){}
-                    updateStatus('connected', 'Data Terbaru Disinkronkan Dari Cloud');
+                    updateStatus('connected', 'Terhubung & Disinkronkan Realtime');
                 } else {
-                    // Coba muat dari cache lokal atau fallback default jika DB masih kosong
                     const cached = localStorage.getItem('local_portfolio_backup');
                     if (cached) {
                         window.populateDataFromPayload(JSON.parse(cached));
                     } else {
                         window.populateDataFromPayload(defaultFallbackData);
                     }
-                    updateStatus('connected', 'Database Siap (Tekan "Simpan Data" untuk Simpan)');
+                    updateStatus('connected', 'Database Kosong (Siap Diisi)');
                 }
-                hideAppLoader();
+                finishInitialLoading();
             }, (error) => {
                 console.error("Firebase Read Error:", error);
-                updateStatus('error', 'Gagal Memuat Cloud, Menggunakan Cache Lokal');
+                updateStatus('error', 'Koneksi Terganggu, Memuat Cache Lokal');
                 const cached = localStorage.getItem('local_portfolio_backup');
                 if (cached) {
                     window.populateDataFromPayload(JSON.parse(cached));
                 } else {
                     window.populateDataFromPayload(defaultFallbackData);
                 }
-                hideAppLoader();
+                finishInitialLoading();
             });
+        } else {
+            const cached = localStorage.getItem('local_portfolio_backup');
+            window.populateDataFromPayload(cached ? JSON.parse(cached) : defaultFallbackData);
+            finishInitialLoading();
         }
 
-        // Timeout Safety Loader
-        setTimeout(hideAppLoader, 3000);
+        // Safety Timeout Loader
+        setTimeout(finishInitialLoading, 3500);
 
-        // Simpan Data Permanen Ke Cloud Database
+        // Simpan Data
         window.saveAllData = async function() {
             syncSocialLinks();
-            updateStatus('saving', 'Menyimpan data ke Cloud Database...');
+            updateStatus('saving', 'Menyimpan data ke Cloud...');
 
             const fullPortfolioData = {
                 profile: {
@@ -1087,21 +1110,17 @@
                 lastUpdated: new Date().toISOString()
             };
 
-            // Simpan ke Local Storage
-            try {
-                localStorage.setItem('local_portfolio_backup', JSON.stringify(fullPortfolioData));
-            } catch(e) {}
+            try { localStorage.setItem('local_portfolio_backup', JSON.stringify(fullPortfolioData)); } catch(e){}
 
-            // Simpan ke Realtime Cloud Database
             if (db) {
                 try {
                     await set(ref(db, 'portofolio_data'), fullPortfolioData);
-                    updateStatus('connected', 'Berhasil Disimpan! Perubahan Langsung Muncul di Perangkat Lain');
-                    alert('Sukses! Perubahan telah tersimpan permanen. Saat dibuka di HP/perangkat lain, data ini akan langsung tampil.');
+                    updateStatus('connected', 'Berhasil Disimpan! Otomatis Muncul di Perangkat Lain');
+                    alert('Sukses! Perubahan telah tersimpan permanen di cloud dan akan langsung berubah di HP/perangkat lain.');
                 } catch (err) {
                     console.error('Firebase Save Error:', err);
-                    updateStatus('error', 'Gagal Simpan Cloud: ' + err.message);
-                    alert('Gagal menyimpan ke Firebase Cloud. Pastikan aturan Security Rules di console Firebase diset true.');
+                    updateStatus('error', 'Gagal Simpan Cloud');
+                    alert('Gagal menyimpan ke Firebase. Pastikan aturan Security Rules di console Firebase diset true.');
                 }
             } else {
                 alert('Database belum terhubung secara penuh.');
@@ -1183,9 +1202,9 @@
         }
     </script>
 
-    <!-- LOGIK PEMROSESAN GAMBAR, MEDSOS, DAN EKSPOR WORD ATS COMPATIBLE UNIVERSAL -->
+    <!-- FUNGSI UTILITAS GAMBAR, SOSMED, & EKSPOR CV ATS FORMAT WORD UNIVERSAL -->
     <script>
-        // Kompresi Foto Otomatis
+        // Kompresi Foto Canvas
         function compressAndResizeImage(file, callback) {
             const reader = new FileReader();
             reader.onload = function(e) {
@@ -1237,7 +1256,7 @@
             }
         }
 
-        // Sinkronisasi Link Sosial Media
+        // Sinkronkan Tautan
         function syncSocialLinks() {
             const phoneTxt = document.getElementById('contactPhone')?.innerText.trim() || '';
             let waFormatted = phoneTxt.replace(/[^0-9]/g, '');
@@ -1307,7 +1326,7 @@
             }, 300);
         }
 
-        // GENERATOR DOWNLOAD CV ATS FORMAT WORD (.doc / MSO Compatible All Apps)
+        // UNDUH CV ATS FORMAT WORD (.doc MSO Standard Universal)
         function downloadCVWord() {
             syncSocialLinks();
             const name = document.getElementById('profileName')?.innerText.trim() || 'Nama Lengkap';
@@ -1332,7 +1351,6 @@
             const organizations = extractSectionItems('organizationContainer');
             const educations = extractSectionItems('educationContainer');
 
-            // Format Word standar MSO XML kompatibel untuk MS Word Mobile, WPS Office, LibreOffice, dll.
             let wordContent = `
             <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns:m='http://schemas.microsoft.com/office/2004/12/omml' xmlns='http://www.w3.org/TR/REC-html40'>
             <head>
