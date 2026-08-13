@@ -713,186 +713,6 @@
             .menu-toggle { display: none; }
             .nav-links { display: flex !important; }
         }
-
-        /* ==========================================================================
-           PENGATURAN CETAK / DOWNLOAD PDF CV (UKURAN KERTAS F4 / TULISAN SAJA)
-           ========================================================================== */
-        @page {
-            size: 215mm 330mm; /* Ukuran Standar Kertas F4 / Folio */
-            margin: 15mm 20mm;
-        }
-
-        @media print {
-            body {
-                background: #FFFFFF !important;
-                color: #0F172A !important;
-                padding: 0 !important;
-            }
-
-            /* Sembunyikan elemen UI & Semua Gambar KARTU (Kecuali Foto Profil) */
-            .body-bg-overlay,
-            header,
-            .db-status-bar,
-            .bottom-action-container,
-            .section-controls,
-            .btn-delete-item,
-            .btn-add,
-            .photo-upload-overlay,
-            .photo-slide-hint,
-            .card-footer-hint,
-            .status-badge,
-            .photo-box-top { /* Menghilangkan semua gambar pada kartu proyek/keahlian */
-                display: none !important;
-            }
-
-            /* FOTO PROFIL UTAMA TETAP DITAMPILKAN */
-            .profile-photo-box {
-                display: block !important;
-                width: 110px !important;
-                height: 110px !important;
-                border: 2px solid #7A001E !important;
-                box-shadow: none !important;
-                margin: 0 !important;
-            }
-
-            .profile-photo-box img {
-                display: block !important;
-                width: 100% !important;
-                height: 100% !important;
-                object-fit: cover !important;
-            }
-
-            .container {
-                max-width: 100% !important;
-                padding: 0 !important;
-                margin: 0 !important;
-            }
-
-            .hero {
-                padding: 0 0 15px 0 !important;
-            }
-
-            .hero-card {
-                background: none !important;
-                color: #0F172A !important;
-                border: none !important;
-                border-bottom: 2px solid #7A001E !important;
-                box-shadow: none !important;
-                padding: 0 0 15px 0 !important;
-                border-radius: 0 !important;
-            }
-
-            .hero-grid {
-                display: flex !important;
-                align-items: center !important;
-                gap: 20px !important;
-                text-align: left !important;
-            }
-
-            .hero-title {
-                color: #7A001E !important;
-                font-size: 1.8rem !important;
-            }
-
-            .hero-subtitle {
-                color: #C5A059 !important;
-                font-size: 1rem !important;
-                margin-bottom: 8px !important;
-            }
-
-            .hero-bio {
-                color: #334155 !important;
-                font-size: 0.88rem !important;
-                margin-bottom: 10px !important;
-            }
-
-            .contact-info-group, .social-group {
-                justify-content: flex-start !important;
-                gap: 12px !important;
-                border: none !important;
-                padding-top: 0 !important;
-            }
-
-            .contact-pill, .social-link {
-                background: none !important;
-                color: #334155 !important;
-                border: none !important;
-                padding: 0 !important;
-                font-size: 0.82rem !important;
-            }
-
-            .section {
-                margin-bottom: 20px !important;
-                page-break-inside: avoid;
-            }
-
-            .section-header {
-                background: none !important;
-                border: none !important;
-                border-bottom: 2px solid #7A001E !important;
-                padding: 0 0 4px 0 !important;
-                border-radius: 0 !important;
-                margin-bottom: 10px !important;
-            }
-
-            .section-title {
-                color: #7A001E !important;
-                font-size: 1.15rem !important;
-                text-transform: uppercase;
-                letter-spacing: 0.5px;
-            }
-
-            .section-icon {
-                color: #7A001E !important;
-            }
-
-            /* TAMPILAN CV TULISAN STANDAR (VERTIKAL BERURUTAN) */
-            .cards-scroll-container {
-                display: flex !important;
-                flex-direction: column !important;
-                gap: 12px !important;
-                overflow: visible !important;
-                padding: 0 !important;
-            }
-
-            .card-horizontal {
-                flex: none !important;
-                background: none !important;
-                border: none !important;
-                border-bottom: 1px dashed #E2E8F0 !important;
-                border-radius: 0 !important;
-                padding: 0 0 8px 0 !important;
-                box-shadow: none !important;
-                page-break-inside: avoid;
-            }
-
-            .item-title {
-                color: #0F172A !important;
-                font-size: 0.98rem !important;
-                font-weight: 700 !important;
-            }
-
-            .item-subtitle {
-                color: #475569 !important;
-                font-size: 0.88rem !important;
-                font-weight: 600 !important;
-            }
-
-            .date-badge {
-                background: none !important;
-                color: #64748B !important;
-                border: none !important;
-                padding: 0 !important;
-                font-size: 0.8rem !important;
-                font-style: italic;
-                margin-bottom: 4px !important;
-            }
-
-            .item-desc {
-                color: #334155 !important;
-                font-size: 0.85rem !important;
-            }
-        }
     </style>
 </head>
 <body>
@@ -934,7 +754,7 @@
         <section class="hero" id="about">
             <div class="hero-card">
                 <div class="hero-grid">
-                    <!-- Foto Profil Utama (Akan Tetap Tampil Saat Di-download) -->
+                    <!-- Foto Profil Utama -->
                     <div class="profile-photo-box">
                         <img id="profileImg" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80" alt="Foto Profil Anda">
                         <label class="profile-upload-overlay">
@@ -1215,7 +1035,7 @@
                 <i class="fa-solid fa-floppy-disk"></i> Simpan Data
             </button>
             <button onclick="downloadCV()" class="btn-primary">
-                <i class="fa-solid fa-file-pdf"></i> Unduh CV (PDF)
+                <i class="fa-solid fa-file-word"></i> Unduh CV (Word ATS)
             </button>
         </div>
 
@@ -1400,10 +1220,215 @@
         }
     </script>
 
-    <!-- Logic UI & Download PDF JavaScript -->
+    <!-- Logic UI & Download CV ATS Word JavaScript -->
     <script>
+        // Fungsi Generator Download CV ATS dalam File Word (.doc/.docx)
         function downloadCV() {
-            window.print();
+            const name = document.getElementById('profileName')?.innerText.trim() || 'Nama Lengkap';
+            const title = document.getElementById('profileTitle')?.innerText.trim() || '';
+            const bio = document.getElementById('profileBio')?.innerText.trim() || '';
+
+            // Sanitasi teks kontak
+            const cleanText = (id) => {
+                const el = document.getElementById(id);
+                if (!el) return '';
+                return el.innerText.trim();
+            };
+
+            const location = cleanText('contactLocation');
+            const phone = cleanText('contactPhone');
+            const email = cleanText('contactEmail');
+            const linkedin = cleanText('socialLinkedin');
+            const web = cleanText('socialWeb');
+
+            const contacts = [email, phone, location, linkedin, web]
+                .filter(c => c && !c.includes('[Nama'))
+                .join(' | ');
+
+            // Pembantu ekstraksi data tiap section
+            function extractSectionItems(containerId) {
+                const container = document.getElementById(containerId);
+                if (!container) return [];
+                const cards = container.querySelectorAll('.card-horizontal');
+                const items = [];
+
+                cards.forEach(card => {
+                    const itemTitle = card.querySelector('.item-title')?.innerText.trim() || '';
+                    const itemSubtitle = card.querySelector('.item-subtitle')?.innerText.trim() || '';
+                    const dateBadge = card.querySelector('.date-badge')?.innerText.trim() || '';
+                    const descEl = card.querySelector('.item-desc');
+
+                    let descHtml = '';
+                    if (descEl) {
+                        const lis = descEl.querySelectorAll('li');
+                        if (lis.length > 0) {
+                            descHtml = '<ul style="margin-top: 3pt; margin-bottom: 6pt; padding-left: 18pt;">' + 
+                                Array.from(lis).map(li => `<li style="margin-bottom: 2pt;">${li.innerText.trim()}</li>`).join('') + 
+                                '</ul>';
+                        } else {
+                            descHtml = `<p style="margin-top: 3pt; margin-bottom: 6pt; font-size: 10pt; color: #334155;">${descEl.innerText.trim()}</p>`;
+                        }
+                    }
+
+                    items.push({ itemTitle, itemSubtitle, dateBadge, descHtml });
+                });
+
+                return items;
+            }
+
+            const experiences = extractSectionItems('experienceContainer');
+            const skills = extractSectionItems('skillsContainer');
+            const organizations = extractSectionItems('organizationContainer');
+            const educations = extractSectionItems('educationContainer');
+
+            // HTML Template Word ATS
+            let wordContent = `
+            <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+            <head>
+                <meta charset='utf-8'>
+                <title>CV ATS - ${name}</title>
+                <style>
+                    @page {
+                        size: 210mm 297mm;
+                        margin: 20mm 20mm 20mm 20mm;
+                    }
+                    body {
+                        font-family: 'Arial', 'Calibri', sans-serif;
+                        font-size: 10.5pt;
+                        line-height: 1.25;
+                        color: #1E293B;
+                    }
+                    .header-name {
+                        font-size: 18pt;
+                        font-weight: bold;
+                        color: #7A001E;
+                        text-align: center;
+                        margin: 0;
+                        text-transform: uppercase;
+                    }
+                    .header-title {
+                        font-size: 11pt;
+                        font-weight: bold;
+                        color: #C5A059;
+                        text-align: center;
+                        margin-top: 2pt;
+                        margin-bottom: 4pt;
+                    }
+                    .header-contact {
+                        font-size: 9.5pt;
+                        color: #475569;
+                        text-align: center;
+                        margin-bottom: 12pt;
+                    }
+                    .sec-title {
+                        font-size: 11pt;
+                        font-weight: bold;
+                        color: #7A001E;
+                        text-transform: uppercase;
+                        border-bottom: 1.5pt solid #7A001E;
+                        padding-bottom: 2pt;
+                        margin-top: 12pt;
+                        margin-bottom: 6pt;
+                    }
+                    .item-main {
+                        font-size: 10.5pt;
+                        font-weight: bold;
+                        color: #0F172A;
+                    }
+                    .item-sub {
+                        font-size: 10.5pt;
+                        font-weight: bold;
+                        color: #475569;
+                    }
+                    .item-date {
+                        font-size: 9.5pt;
+                        font-style: italic;
+                        color: #64748B;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="header-name">${name}</div>
+                <div class="header-title">${title}</div>
+                <div class="header-contact">${contacts}</div>
+
+                <div class="sec-title">PROFIL PROFESIONAL</div>
+                <p style="margin-top: 4pt; margin-bottom: 8pt; font-size: 10pt; line-height: 1.3;">${bio}</p>
+            `;
+
+            if (experiences.length > 0) {
+                wordContent += `<div class="sec-title">PENGALAMAN KERJA</div>`;
+                experiences.forEach(exp => {
+                    wordContent += `
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 4pt; margin-bottom: 2pt;">
+                        <tr>
+                            <td align="left"><span class="item-main">${exp.itemTitle}</span> ${exp.itemSubtitle ? '| <span class="item-sub">' + exp.itemSubtitle + '</span>' : ''}</td>
+                            <td align="right" class="item-date">${exp.dateBadge}</td>
+                        </tr>
+                    </table>
+                    ${exp.descHtml}
+                    `;
+                });
+            }
+
+            if (skills.length > 0) {
+                wordContent += `<div class="sec-title">KEAHLIAN & SPESIALISASI</div>`;
+                skills.forEach(skill => {
+                    wordContent += `
+                    <div style="margin-top: 4pt; margin-bottom: 2pt;">
+                        <span class="item-main">${skill.itemTitle}</span> ${skill.itemSubtitle ? '– <i>' + skill.itemSubtitle + '</i>' : ''} ${skill.dateBadge ? '<span class="item-date">(' + skill.dateBadge + ')</span>' : ''}
+                    </div>
+                    ${skill.descHtml}
+                    `;
+                });
+            }
+
+            if (organizations.length > 0) {
+                wordContent += `<div class="sec-title">RIWAYAT ORGANISASI</div>`;
+                organizations.forEach(org => {
+                    wordContent += `
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 4pt; margin-bottom: 2pt;">
+                        <tr>
+                            <td align="left"><span class="item-main">${org.itemTitle}</span> ${org.itemSubtitle ? '| <span class="item-sub">' + org.itemSubtitle + '</span>' : ''}</td>
+                            <td align="right" class="item-date">${org.dateBadge}</td>
+                        </tr>
+                    </table>
+                    ${org.descHtml}
+                    `;
+                });
+            }
+
+            if (educations.length > 0) {
+                wordContent += `<div class="sec-title">PENDIDIKAN & SERTIFIKASI</div>`;
+                educations.forEach(edu => {
+                    wordContent += `
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 4pt; margin-bottom: 2pt;">
+                        <tr>
+                            <td align="left"><span class="item-main">${edu.itemTitle}</span> ${edu.itemSubtitle ? '| <span class="item-sub">' + edu.itemSubtitle + '</span>' : ''}</td>
+                            <td align="right" class="item-date">${edu.dateBadge}</td>
+                        </tr>
+                    </table>
+                    ${edu.descHtml}
+                    `;
+                });
+            }
+
+            wordContent += `
+            </body>
+            </html>
+            `;
+
+            // Proses Download Berkas Word
+            const blob = new Blob(['\ufeff', wordContent], { type: 'application/msword' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            const cleanFileName = (name.replace(/[^a-zA-Z0-9]/g, '_') || 'CV_ATS') + '_Word.doc';
+            a.download = cleanFileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
         }
 
         const menuToggle = document.getElementById('menuToggle');
